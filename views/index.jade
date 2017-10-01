@@ -1,0 +1,38 @@
+extends /layouts/basic_layout
+
+block topbar
+  .title Kotodama
+
+block basic_content
+  .questionArea
+    h1 徹底調査！あなたのデザイン感覚！
+    p このサイトではあなたの図形に対するイメージ「デザイン感覚」を調べます。
+    p あなたは、多くの人に支持されるデザイン感覚の持ち主でしょうか。それとも、前衛的なデザイン感覚の持ち主でしょうか。19の図形に対して、その図形のイメージを答えることで、あなたのデザイン感覚支持率を調べましょう！
+
+
+
+    h3 デザイン感覚調査についての説明
+    p.aligncenter
+      a.button(href="/explanation") 詳しい説明を読む
+
+    hr
+
+    h3 デザイン感覚調査をはじめる
+    p.aligncenter
+      a.button(href="/questionnaires/start") 調査に答える
+
+    hr
+
+
+    h3 回答を続きから始める
+    form(action="/questionnaires/restart" method="get")
+      table
+        tr
+          td(style="width:20%") 回答ID
+          td
+            input(type="text" name="user_id" value="#{3}")
+      p.aligncenter 
+        input(type="submit" value="回答IDを使って回答") 
+
+
+

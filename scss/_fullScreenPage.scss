@@ -1,0 +1,60 @@
+
+.fullScreenPage{
+  position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+  overflow:hidden;
+}
+
+
+.fullScreenPage__topbarBottom{
+  position:absolute;
+    top:$topbar-height;
+    left:0;
+    right:0;
+    bottom:0;
+
+}
+
+.fullScreenPage__top{
+  position:absolute;
+    top:0;
+    right:0;
+    left:0;
+
+  box-sizing:border-box;
+  height:38%;
+  padding:5px;
+}
+
+.fullScreenPage__bottom {
+  position:absolute;
+    right:0;
+    left:0;
+    bottom:0;
+
+
+  box-sizing:border-box;
+  height:62%;
+
+  padding:5px;
+
+  overflow:scroll;
+}
+
+.fullScreenPage__full{
+  position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+
+  box-sizing:border-box;
+  padding:5px;
+
+  overflow:scroll;
+}
+

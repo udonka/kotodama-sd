@@ -1,0 +1,43 @@
+extends /layouts/basic_layout
+
+block topbar
+  .title Kotodama
+
+block basic_content
+  .questionArea
+    p デザイン感覚調査を始めます。あなたについて教えて下さい。
+
+
+    form(action="#{url}" method="post")
+      table
+        tr
+          th(style="width:30%" ) お名前
+          td
+            input(type="text" name="yourname")
+
+        tr
+          th メール<br>アドレス
+          td
+            input(type="text" name="email")
+
+        tr
+          th 性別
+          td
+            label
+              input(type="radio" name="sex" value="0")
+              男性
+
+            label
+              input(type="radio" name="sex" value="1")
+              女性
+
+        tr
+          th 年齢
+          td
+            input(type="text" name="age")
+
+        tr
+          td(colspan="2" style="text-align:center;")
+            input(type="submit" value="調査開始!")
+
+    

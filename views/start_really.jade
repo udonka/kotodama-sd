@@ -1,0 +1,14 @@
+extends /layouts/basic_layout
+
+block topbar
+  .title Kotodama
+
+block basic_content
+  .questionArea
+    p この回答のIDは
+      input(type="text" value="#{user_answer_id}")
+      | です。ほかの人には教えてないようにメモしてください。
+    
+    p それでは早速調査に入ります！
+    a.button(href="./next") 調査に進む！
+

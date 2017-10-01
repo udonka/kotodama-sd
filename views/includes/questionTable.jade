@@ -1,0 +1,23 @@
+
+mixin questionTable(question, scale_num, answers=null)
+  table.questionTable.n
+    thead
+      tr.questionTable__adjRow
+        td(colspan="#{(scale_num-1)/2}").questionTable__adj--left 
+          | #{question.left}
+        td(colspan="1").questionTable__adj--center どちら<br>でもない
+        td(colspan="#{(scale_num-1)/2}").questionTable__adj--right
+          | #{question.right}
+
+    tbody
+      tr
+        each index in Array.from({length: scale_num}, (v, k) => k+1)
+          td.questionTable__cell
+            .questionTable__cellInner
+              input(type="radio" name="#{question.id}" value="#{index}" 
+                checked=(answers && answers[question.id] == index) id="#{question.id}_#{index}").questionTable__radio
+              label(for="#{question.id}_#{index}").questionTable__button #{index}
+
+      if answers && answers[question.id] == null
+        tr.questionTable__error
+          td(colspan="#{scale_num}") 回答してください

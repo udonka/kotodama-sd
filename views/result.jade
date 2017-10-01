@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .fullScreenPage
+    .fullScreenPage__top
+      .topbar
+        .title Kotodama
+
+      .stimulusArea
+        img(src="/images/kotodama.png")
+
+    .fullScreenPage__bottom
+      .questionArea
+        form(action="/" method="post")
+          each question in questions
+            table.questionTable
+              thead
+                tr.questionTable__adjRow
+                  td(colspan="#{(N-1)/2}").questionTable__adj--left 
+                    | #{question.left}
+                  td(colspan="1").questionTable__adj--center どちら<br>でもない
+
+                  td(colspan="#{(N-1)/2}").questionTable__adj--right
+                    | #{question.right}
+
+              tbody
+                tr
+                  each index in Array.from({length: N}, (v, k) => k+1)
+                    td.questionTable__cell
+                      .questionTable__cellInner
+                        input(type="radio" name="#{question.id}" id="#{question.id}_#{index}").questionTable__radio
+                        label(for="#{question.id}_#{index}").questionTable__button #{index}
+                  
+          input(type="submit" value="送信")

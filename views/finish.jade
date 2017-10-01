@@ -1,0 +1,40 @@
+extends /layouts/basic_layout
+
+block topbar
+  .title Kotodama
+
+block basic_content
+  .questionArea
+    p 支持率調査への多大なご協力、ありがとうございました。
+
+    p あなたのデザイン感覚支持率は87%です。
+
+    table
+      tr
+        td(style="width:20%") 90-100 
+        td 非常に多くの方に支持され、称賛されるでしょう。
+      tr
+        td 80-90 
+        td 多くの方に支持され、共感を得るでしょう。
+
+      tr
+        td 60-80 
+        td 広く受け入れられており、親しみをもたれるでしょう。
+
+      tr
+        td 40-60 
+        td 少し独創的で周りの人に一目置かれるでしょう。
+      tr
+        td 20-40 
+        td 独創的で根強いファンがつくでしょう。
+      tr
+        td 10-20 
+        td 前衛的で一部の人が強く支持するでしょう。
+      tr
+        td 0-10 
+        td とても前衛的でカリスマ的感覚の持ち主です。
+
+
+    a.button(href="/questionnaires/start") 他の回答を作成
+
+    a.button(href="/") トップに戻る

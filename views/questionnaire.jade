@@ -1,0 +1,27 @@
+extends /layouts/stimulus_layout
+
+
+block topbar
+  .title Kotodama
+
+block stimulus_content
+  .stimulusArea
+    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+
+block question_content
+  .questionArea
+    if answers==null
+      p この設問にはまだ回答していません
+    else 
+      if empty_questions.length > 0
+        p この設問には未回答の回答があります
+      else
+        p この設問には回答済みです
+
+    include /includes/questionTable
+    form(action="#{url}" method="post")
+      each question in questions
+        +questionTable(question, scale_num, answers)
+
+      input(type="submit" value="送信")
+

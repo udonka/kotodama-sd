@@ -1,0 +1,54 @@
+extends /layouts/stimulus_layout
+
+
+block topbar
+  .title Kotodama
+
+block stimulus_content
+  .stimulusArea
+    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+
+block question_content
+  .questionArea
+    p ありがとうございました。
+    p この図形に関してあなたのデザイン感覚支持率は87%です。
+
+
+
+    p.aligncenter
+      a.button(href="/questionnaires/next") 次の設問
+
+    pre questionnaires
+    pre= JSON.stringify(questionnaires)
+
+    pre left_questionnaires
+    pre= JSON.stringify(left_questionnaires)
+
+    - var qs = [];
+    - Object.assign(qs,  questionnaires);
+
+    //コトダマ一覧
+    - var rows_num = 5;
+    - var questionnaires_rows = [];
+    - while( qs.length > rows_num){
+    -   questionnaires_rows.push(qs.splice(0, rows_num));
+    - };
+    - questionnaires_rows.push(qs);
+
+    
+    p 残り #{left_questionnaires.length}/#{qs.length} です。
+    table
+      each questionnaires_row in questionnaires_rows
+        tr
+          each questionnaire in questionnaires_row
+            if left_questionnaires.find(qn => qn.id == questionnaire.id)
+              td
+                img(src="/images/kotodama.png")
+            else
+              td
+                if(questionnaire_id == questionnaire.id) 
+                  img(style="border:10px solid red" src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+                else
+                  img(src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+              
+       

@@ -1,0 +1,41 @@
+extends /layouts/basic_layout
+
+
+block topbar
+  .title Kotodama
+
+block basic_content
+  .questionArea
+    p 設問一覧
+
+    table 
+      thead
+        tr 
+          td コトダマ
+          td ステータス
+      tbody
+
+        each questionnaire in questionnaires
+          tr 
+            td 
+              a(href="/questionnaires/#{questionnaire.id}")
+                img(src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+
+            td 
+              - let the_answer = questionnaire_answers.find(ans => ans.questionnaire_id == questionnaire.id);
+              if the_answer
+                p 回答あり
+
+                if the_answer.hasEmpty
+                  p 回答は完全ではありません
+                else
+                  p 回答は完了しています。
+              else
+                p 未回答です。
+
+
+
+
+              
+
+
