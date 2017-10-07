@@ -1,0 +1,11 @@
+mixin topbar(user_answer)
+  .topbar__inner
+    .topbar__title
+      h1 
+        a(href="/") デザイン感覚
+
+    .topbar__userInfo
+      if user_answer
+        div
+        p 回答番号: #{user_answer.id}
+        p= user_answer.user_info.name +"様"

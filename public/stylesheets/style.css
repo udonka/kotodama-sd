@@ -731,8 +731,35 @@ body {
   left: 0;
   box-sizing: border-box;
   height: 60px;
-  padding: 5px;
   background: #e8e8e8; }
+
+/* line 19, scss/_topbar.scss */
+.topbar__inner {
+  padding: 5px;
+  margin-left: -20px;
+  margin-right: -20px;
+  width: calc(100% + 40px); }
+  /* line 26, scss/neat/neat/mixins/_grid-container.scss */
+  .topbar__inner::after {
+    clear: both;
+    content: "";
+    display: block; }
+
+/* line 27, scss/_topbar.scss */
+.topbar__title {
+  width: calc(50% - 30px);
+  float: left;
+  margin-left: 20px; }
+
+/* line 32, scss/_topbar.scss */
+.topbar__userInfo {
+  width: calc(50% - 30px);
+  float: left;
+  margin-left: 20px; }
+
+/* line 36, scss/_topbar.scss */
+.topbar__id {
+  display: inline; }
 
 /* line 1, scss/_stimulusArea.scss */
 .stimulusArea {

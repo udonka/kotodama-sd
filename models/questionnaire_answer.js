@@ -20,9 +20,14 @@ var QuestionnaireAnswerSchema = new Schema({
   answers:answer_sheet
 });
 
+/*
+QuestionnaireAnswerSchema.statics.findByQuestionnaireId(function(questionnaire_id){
+  this.find
+});
+*/
 
 QuestionnaireAnswerSchema.virtual("hasEmpty").get(function(){
-  return Object.keys(this.answers).find(q_id => !the_answer.answers[q_id]);
+  return Object.keys(this.answers).find(q_id => !this.answers[q_id]);
 });
 
 QuestionnaireAnswerSchema.virtual("questionsLength").get(function(){
@@ -30,7 +35,7 @@ QuestionnaireAnswerSchema.virtual("questionsLength").get(function(){
 });
 
 QuestionnaireAnswerSchema.virtual("answersLength").get(function(){
-  return Object.keys(this.answers).filter(q_id => !!the_answer.answers[q_id]).length;
+  return Object.keys(this.answers).filter(q_id => !!this.answers[q_id]).length;
 
 });
 

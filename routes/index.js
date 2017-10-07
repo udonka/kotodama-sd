@@ -11,7 +11,9 @@ const answer_sheet = questions_obj.answer_sheet;
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-  res.render("index", {questionnaires});
+  const user_answer_id = req.cookies.user_answer_id || '';
+
+  res.render("index", {questionnaires, user_answer_id});
 
 });
 

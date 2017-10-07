@@ -1,7 +1,8 @@
 extends /layouts/basic_layout
 
 block topbar
-  .title Kotodama
+  include /includes/topbar
+  +topbar(user_answer)
 
 block basic_content
   .questionArea

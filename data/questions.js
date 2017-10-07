@@ -3,8 +3,9 @@ const questions = [
   {left:"暖かい",right:"冷たい"},
   {left:"厚い",right:"薄い"},
   {left:"安心な",right:"不安な"},
-  /*
 
+  /*
+  
   {left:"良い",right:"悪い"},
   {left:"印象の強い",right:"印象の弱い"},
   {left:"嬉しい",right:"悲しい"},
@@ -44,8 +45,8 @@ const questions = [
   {left:"若々しい",right:"年老いた"},
   {left:"高級感のある",right:"安っぽい"},
   {left:"抵抗力のある",right:"抵抗力のない"},
+  
   */
-
 ];
 
 questions.forEach((el, index) => el.id = "q" + index);

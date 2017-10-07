@@ -10,8 +10,30 @@
   box-sizing:border-box;
   height:$topbar-height;
 
-  padding:$space-small;
 
   background:#e8e8e8;
 
+
+}
+
+.topbar__inner{
+  padding:$space-small;
+
+  @include grid-container;
+  @include grid-collapse;
+}
+
+
+.topbar__title{
+  @include grid-column(6);
+
+}
+
+.topbar__userInfo{
+  @include grid-column(6);
+}
+
+.topbar__id{
+  
+  display:inline;
 }

@@ -1,43 +1,57 @@
 extends /layouts/basic_layout
 
 block topbar
-  .title Kotodama
+  include /includes/topbar
+  +topbar(user_answer)
 
 block basic_content
   .questionArea
     p デザイン感覚調査を始めます。あなたについて教えて下さい。
+      br 
+      | この情報は、このデザイン感覚調査にのみ用いるものです。
+      br
+      | メールアドレスは、最終結果の通知のために使用させていただきます。
+      br
+      | 性別や年齢などの属性は、それによってデザイン感覚がどのように変わるのかを調査するために用い、お名前などの個人情報とは切り離して統計的に処理されます。
 
+    if error
+      p(style="color:red")= error
 
     form(action="#{url}" method="post")
       table
         tr
           th(style="width:30%" ) お名前
           td
-            input(type="text" name="yourname")
+            input(type="text" name="yourname" value="#{yourname || ''}")
 
         tr
           th メール<br>アドレス
           td
-            input(type="text" name="email")
+            input(type="email" name="email" value="#{email || ''}")
+        tr
+          th メール<br>アドレス<br>確認
+          td
+            input(type="email" name="email_confirm" value="#{email_confirm || ''}")
 
         tr
           th 性別
           td
             label
-              input(type="radio" name="sex" value="0")
+              input(type="radio" name="is_male" value="1" checked=(is_male!=undefined && is_male))
               男性
 
             label
-              input(type="radio" name="sex" value="1")
+              input(type="radio" name="is_male" value="0" checked=(is_male!=undefined && !is_male))
               女性
 
         tr
           th 年齢
           td
-            input(type="text" name="age")
+            input(type="text" name="age" value="#{age || ''}" )
 
         tr
-          td(colspan="2" style="text-align:center;")
-            input(type="submit" value="調査開始!")
+          td(colspan="2" )
+            .aligncenter
+              input(type="submit" value="調査開始!")
 
     

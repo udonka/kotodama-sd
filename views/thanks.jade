@@ -2,7 +2,8 @@ extends /layouts/stimulus_layout
 
 
 block topbar
-  .title Kotodama
+  include /includes/topbar
+  +topbar(user_answer)
 
 block stimulus_content
   .stimulusArea
@@ -18,11 +19,13 @@ block question_content
     p.aligncenter
       a.button(href="/questionnaires/next") 次の設問
 
-    pre questionnaires
-    pre= JSON.stringify(questionnaires)
+    //
+      pre questionnaires
+      pre= JSON.stringify(questionnaires)
 
-    pre left_questionnaires
-    pre= JSON.stringify(left_questionnaires)
+      pre left_questionnaires
+      pre= JSON.stringify(left_questionnaires)
+    
 
     - var qs = [];
     - Object.assign(qs,  questionnaires);
@@ -36,7 +39,7 @@ block question_content
     - questionnaires_rows.push(qs);
 
     
-    p 残り #{left_questionnaires.length}/#{qs.length} です。
+    p 残り #{left_questionnaires.length}/#{questionnaires.length} です。
     table
       each questionnaires_row in questionnaires_rows
         tr

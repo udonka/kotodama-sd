@@ -1,27 +1,54 @@
-var express = require('express');
-var co = require('co');
-var questionnaires_router = express.Router();
-
-var path = require('path');
-
+const express = require('express');
+const co = require('co');
+const questionnaires_router = express.Router();
+const path = require('path');
 const mongoose = require("mongoose");
 
 const UserAnswer = mongoose.model("UserAnswer");
 const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
-
 const questionnaires = require("../data/questionnaires");
 const questions_obj      = require("../data/questions");
 const questions = questions_obj.questions;
 const answer_sheet = questions_obj.answer_sheet;
-
 const scale_num = 9;
 
 
-//設問一覧ページ
-questionnaires_router.get('/', function(req, res, next) {
-  co(function*(){
+function fetchUserAnswer(req, res, next){
+  return co(function*(){
+    const user_answer_id = parseInt(req.cookies.user_answer_id);
 
-    const questionnaire_answers = Array.from(yield QuestionnaireAnswer.find().exec());
+    if(isNaN(user_answer_id)){
+      res.cookie("user_answer_id", "");
+      return res.redirect("/");
+    }
+
+    const user_answer = yield UserAnswer
+      .findByIdAndPopulateAnswers(user_answer_id).exec();
+
+    if(user_answer){
+      console.log("user_answer loaded", user_answer);
+      req.user_answer = user_answer;
+      res.locals.user_answer = user_answer;
+      return next();
+    }
+    else{
+      return res.redirect(path.join(req.baseUrl, "start"));
+    }
+
+  }).catch(e=>next(e));
+}
+
+
+//設問一覧ページ
+questionnaires_router.get('/', fetchUserAnswer, function(req, res, next) {
+  co(function*(){
+    const user_answer = req.user_answer;
+    const questionnaire_answers = user_answer.questionnaire_answers;
+
+    console.log("user_answer", user_answer);
+    console.log("questionnaire_answers", questionnaire_answers);
+
+    //const questionnaire_answers = Array.from(yield QuestionnaireAnswer.find().exec());
     res.render("questionnaires",{questionnaires, questionnaire_answers});
 
   }).catch(e=>next(e));
@@ -35,11 +62,38 @@ questionnaires_router.post('/start', function(req, res, next) {
   co(function*(){
     const name = req.body.yourname; //めんどくさい
     const email = req.body.email;
-    const sex = req.body.sex ;
-    const age = req.body.age;
+    const email_confirm = req.body.email_confirm;
+    const is_male = req.body.is_male;
+    const age = parseInt(req.body.age);
 
 
-    const new_user_answer = UserAnswer.createNew(name,email,sex,age);
+    //本当は、ちゃんとしたvalidationやるべき
+    console.log(name);
+
+    if(name == "" ){
+      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"名前が空欄です"});
+    }
+
+    if(email == "" ){
+      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスが空欄です"});
+    }
+
+    if(email_confirm == "" ){
+      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスを再入力してください"});
+    }
+
+    if(email != email_confirm ){
+      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"同じメールアドレスを二回入力してください"});
+    }
+
+    if(isNaN(age)){
+      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"年齢は半角数字で入力してください"});
+      
+    }
+
+
+
+    const new_user_answer = yield UserAnswer.createNew(name,email,is_male,age);
     const result = yield new_user_answer.save();
 
     res.cookie("user_answer_id", new_user_answer.id, {maxAge:600000000});
@@ -56,35 +110,41 @@ questionnaires_router.get('/start_really', function(req, res, next) {
 });
 
 questionnaires_router.get('/restart', function(req, res, next) {
-  //回答IDがあれば
-  //  渡されて、
-  //  DBにありvalidであれば。
- 
-  if(false){
-    res.redirect(path.join(req.baseUrl, "next"));
-  }
-  else{
-    //flash ID ... の回答はありませんでした。新しく回答を始めてください
-    res.redirect(path.join(req.baseUrl, "start"));
-  }
+  co(function*(){
+    //回答IDがあれば
+    //  渡されて、
+    //  DBにありvalidであれば。
+    const user_answer_id = parseInt(req.query.user_answer_id);
 
+    if(isNaN(user_answer_id)){
+      return res.redirect("/");
+      
+    }
+    const user_answer = yield UserAnswer.findOne({id:user_answer_id}).exec();
+  
+    if(user_answer){
+      res.cookie("user_answer_id", user_answer.id);
+      res.redirect( path.join(req.baseUrl, "next") );
+    }
+    else{
+      //flash ID ... の回答はありませんでした。新しく回答を始めてください
+      res.redirect( path.join(req.baseUrl, "start") );
+    }
+  }).catch(e=>next(e));
 });
 
 
 
 
-questionnaires_router.get('/finish', function(req, res, next) {
+questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
   res.render("finish");
 });
 
 
 
 //設問を、回答があれば回答を表示する。
-questionnaires_router.get('/:questionnaire_id', function(req, res, next) {
-
-  co(function*(){
-  
-
+questionnaires_router.get('/:questionnaire_id',fetchUserAnswer, function(req, res, next) {
+  return co(function*(){
     const questionnaire_id = req.params.questionnaire_id;
 
     //設問が見つからなかったら
@@ -93,10 +153,11 @@ questionnaires_router.get('/:questionnaire_id', function(req, res, next) {
       return next();
     }
 
+
+    const user_answer = req.user_answer;
+
     //すでにある回答を検索
-    const existing_answer = yield QuestionnaireAnswer.findOne({questionnaire_id});
-
-
+    const existing_answer = user_answer.questionnaire_answers[questionnaire_id];
 
     if(existing_answer){
       //回答があるならば
@@ -124,21 +185,30 @@ questionnaires_router.get('/:questionnaire_id', function(req, res, next) {
 
 
 
-questionnaires_router.post('/:questionnaire_id', function(req, res, next) {
+questionnaires_router.post('/:questionnaire_id', fetchUserAnswer, function(req, res, next) {
   co(function*(){
-    const answers = req.body;
     const questionnaire_id = req.params.questionnaire_id;
 
-    //設問が見つからなかったら
-    //k1とかのやつ
+    //設問が見つからなかったら(k1とかのやつ)
     if(questionnaires.findIndex(q => q.id == questionnaire_id) == -1){
       return next();
     }
 
+    const user_answer = req.user_answer;
+
+
+    const answers = req.body;
 
     //すでに回答が存在すれば消す。
     //todo!!!! user_answerの中でもnullにする
-    yield QuestionnaireAnswer.deleteOne({questionnaire_id});
+
+    const questionnaire_answer = user_answer.questionnaire_answers[questionnaire_id];
+
+    if(questionnaire_answer){
+      yield QuestionnaireAnswer.deleteOne({_id: questionnaire_answer._id});
+      user_answer.questionnaire_answers[questionnaire_id] = null;
+    }
+
 
 
     let my_answer_sheet = Object.assign({},answer_sheet); //コピー
@@ -150,28 +220,26 @@ questionnaires_router.post('/:questionnaire_id', function(req, res, next) {
     const new_q_answer =  new QuestionnaireAnswer({
       questionnaire_id,
       answers:my_answer_sheet,
-
     });
 
-    yield new_q_answer.save();
 
+    const saved_questionnaire_answer = yield new_q_answer.save();
 
+    console.log("saved_questionnaire_answer", saved_questionnaire_answer );
 
-    /*
-    user_answers.push({
-      questionnaire_id,
-      answers:my_answer_sheet,
-    });
-    */
+    user_answer.questionnaire_answers[questionnaire_id] = saved_questionnaire_answer;
 
+    const saved_user_answer = yield user_answer.save();
+
+    console.log("saved_user_answer");
+    console.log(saved_user_answer);
 
 
     // 空欄を調べる。空欄があってはならない。
     const empty_questions = Object.keys(my_answer_sheet).filter(key => my_answer_sheet[key] == null);
 
-    // 
     if(empty_questions.length == 0 ){
-      const left_questionnaires = yield getLeftQuestionnaires(questionnaires);
+      const left_questionnaires = yield saved_user_answer.getLeftQuestionnaires();
 
       return res.render('thanks', {questionnaire_id, questionnaires, left_questionnaires});
     }
@@ -183,17 +251,17 @@ questionnaires_router.post('/:questionnaire_id', function(req, res, next) {
 
 
 
-questionnaires_router.get('/next', function(req, res, next) {
+questionnaires_router.get('/next',fetchUserAnswer, function(req, res, next) {
   co(function*(){
     //回答を見つける
     //残ってる回答
 
-    const user_answers = QuestionnaireAnswer.find();
+    const user_answer = req.user_answer;
 
-    console.log("user_answers");
-    console.log(user_answers);
+    let left_questionnaires = yield user_answer.getLeftQuestionnaires();
 
-    let left_questionnaires = yield getLeftQuestionnaires(questionnaires, user_answers);
+    console.log("left_questionnaires");
+    console.log(left_questionnaires);
 
     if(left_questionnaires.length == 0){
       return res.redirect(path.join(req.baseUrl,"finish"));
@@ -212,51 +280,6 @@ questionnaires_router.get('/next', function(req, res, next) {
 });
 
 
-//Model行き
-function getLeftQuestionnaires(questionnaires){
-  return co(function*(){
-
-    const questionnaire_answers = (yield QuestionnaireAnswer
-      .find({questionnaire_id:{$in:questionnaires.map(q=>q.id)}}));
-
-    console.log("questionnaire_answers");
-    console.log(questionnaire_answers);
-
-    return questionnaires.filter( qn => {
-      //回答が存在するか？
-
-      let the_answer = questionnaire_answers.find(qa => qa.questionnaire_id == qn.id);
-
-      console.log("the_answer");
-      console.log(the_answer);
-
-      //存在しないなら、残ってる
-      if(!the_answer){
-        console.log("the answer not exist")
-        return true;
-      }
-
-      if(!(the_answer.answers)){
-        console.log("the answers in answer not exist")
-        return true;
-      }
-
-      let null_exist = Object.keys(the_answer.answers).find(q_id => !the_answer.answers[q_id]);
-
-      //nullが存在するなら残ってる
-      if(null_exist) {
-        console.log("the answer contains null")
-        return true;
-      }
-
-      console.log("the answer is perfect")
-      //回答が存在して、空欄が存在しないなら、残ってない
-      return false;
-      
-    });
-
-  });
-}
 
 
 module.exports = questionnaires_router;

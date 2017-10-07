@@ -2,7 +2,8 @@ extends /layouts/stimulus_layout
 
 
 block topbar
-  .title Kotodama
+  include /includes/topbar
+  +topbar(user_answer)
 
 block stimulus_content
   .stimulusArea
@@ -23,5 +24,6 @@ block question_content
       each question in questions
         +questionTable(question, scale_num, answers)
 
-      input(type="submit" value="送信")
+      p.aligncenter
+        input(type="submit" value="送信")
 
