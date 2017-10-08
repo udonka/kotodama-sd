@@ -858,7 +858,65 @@ tr.questionTable__adjRow {
   color: red;
   text-align: center; }
 
-/* line 20, scss/style.scss */
+/* line 4, scss/_answerScale.scss */
+.answerScale {
+  position: relative;
+  background: lightgray;
+  height: 40px;
+  width: 100%;
+  border-radius: 20px; }
+
+/* line 14, scss/_answerScale.scss */
+.answerScale__inner {
+  position: relative;
+  height: 40px;
+  margin-left: 20px;
+  margin-right: 20px; }
+
+/* line 22, scss/_answerScale.scss */
+.answerScale__dev {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0%;
+  margin-left: -5%;
+  width: 10%;
+  height: 40px;
+  border-radius: 20px;
+  background: pink; }
+
+/* line 38, scss/_answerScale.scss */
+.answerScale__ave {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: red; }
+
+/* line 54, scss/_answerScale.scss */
+.answerScale__myAnswer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  display: flex;
+  justify-content: center;
+  /* 3 */
+  align-items: center;
+  /* 4 */
+  border: 5px solid white;
+  margin-left: -20px;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white; }
+
+/* line 22, scss/style.scss */
 a {
   color: #00B7FF; }
 

@@ -11,11 +11,9 @@ block stimulus_content
 
 block question_content
   .questionArea
-    if answers==null
-      p この設問にはまだ回答していません
-    else 
+    if answers!=null
       if empty_questions.length > 0
-        p この設問には未回答の回答があります
+        p(style="color:red") この設問には未回答の回答があります
       else
         p この設問には回答済みです
 

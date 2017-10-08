@@ -1,0 +1,74 @@
+
+$answerScale-height: 40px;
+
+.answerScale{
+  position:relative;
+
+  background:lightgray;
+  height: $answerScale-height;
+  width:100%;
+
+  border-radius:$answerScale-height/2;
+}
+
+.answerScale__inner{
+  position:relative;
+  height: $answerScale-height;
+  margin-left:$answerScale-height/2;
+  margin-right:$answerScale-height/2;
+
+}
+
+.answerScale__dev{
+  position:absolute;
+    top:0;
+    bottom:0;
+
+    left:0%;
+
+  margin-left:-5%;
+  width:10%;
+
+
+
+  height: $answerScale-height;
+  border-radius:$answerScale-height/2;
+  background:pink;
+}
+.answerScale__ave{
+
+  position:absolute;
+    top:0;
+    bottom:0;
+
+    left:50%;
+
+  margin-left:-$answerScale-height/2;
+
+  width:$answerScale-height;
+  height: $answerScale-height;
+
+  border-radius:$answerScale-height/2;
+  background:red;
+}
+.answerScale__myAnswer{
+
+  position:absolute;
+    top:0;
+    bottom:0;
+
+    left:100%;
+
+  display:flex;
+  justify-content: center;/* 3 */
+  align-items: center;    /* 4 */
+
+  border:5px solid white;
+  margin-left:-$answerScale-height/2;
+  height: $answerScale-height;
+  width:$answerScale-height;
+
+  border-radius:$answerScale-height/2;
+  background:rgba(0,0,0,0.5);
+  color:white;
+}

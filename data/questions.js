@@ -61,5 +61,7 @@ const answer_sheet = question_ids.reduce((sheet, q_id) => {
   return sheet;
 },{});
 
-module.exports = {questions, answer_sheet, question_ids};
+const scale_num = 9;
+
+module.exports = {questions, answer_sheet, question_ids, scale_num};
 

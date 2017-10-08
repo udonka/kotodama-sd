@@ -2,13 +2,21 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var co = require('co');
 var QuestionnaireAnswerSchema = require("./questionnaire_answer.js");
-
-
+const questions_obj      = require("../data/questions"); 
 const questionnaires = require("../data/questionnaires.js");
+
+
 const questionnaires_schema = questionnaires.reduce((obj, q)=>{
   obj[q.id] = { type:Schema.Types.ObjectId, ref:"QuestionnaireAnswer" }
   return obj;
 },{});
+
+/*
+ * {
+ *    k1: { type:Schema.Types.ObjectId, ref:"QuestionnaireAnswer" }
+ *    k2: { type:Schema.Types.ObjectId, ref:"QuestionnaireAnswer" }
+ * }
+ * */
 
 
 var UserAnswerSchema = new Schema({
@@ -19,7 +27,9 @@ var UserAnswerSchema = new Schema({
     is_male:   Number, //0:男 1:女
     age:   Number, //何歳か
   },
-  questionnaire_answers: questionnaires_schema 
+  questionnaire_answers: questionnaires_schema ,
+
+  
 });
 
 //virtuals
@@ -84,8 +94,13 @@ UserAnswerSchema.statics.createNew = function(name, email, is_male, age){
 }
 
 UserAnswerSchema.statics.findByIdAndPopulateAnswers = function(user_answer_id){ 
+  return this.findOneAndPopulateAnswers({id:user_answer_id});
+};
+
+
+UserAnswerSchema.statics.findOneAndPopulateAnswers = function(q){ 
   const UserAnswer =  this;
-  let query = UserAnswer.findOne({id:user_answer_id});
+  let query = UserAnswer.findOne(q);
 
   questionnaires.forEach(function(questionnaire){
     query.populate("questionnaire_answers." + questionnaire.id);
@@ -94,54 +109,120 @@ UserAnswerSchema.statics.findByIdAndPopulateAnswers = function(user_answer_id){
   return query;
 };
 
-UserAnswerSchema.methods.getLeftQuestionnaires = function getLeftQuestionnaires(){
+UserAnswerSchema.statics.findAndPopulateAnswers = function(q){ 
+  const UserAnswer =  this;
+  let query = UserAnswer.find(q);
+
+  questionnaires.forEach(function(questionnaire){
+    query.populate("questionnaire_answers." + questionnaire.id);
+  });
+
+  return query;
+};
+
+
+/* 削除するやつ？するやつ？
+UserAnswerSchema.statics. = function (questionnaire_id){
+
+
+}
+*/
+
+
+UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
 
   const this_user_answer = this;
+  const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
 
   return co(function*(){
 
-    const answers_obj = this_user_answer.questionnaire_answers;
+    const my_questionnaire_answer = this_user_answer.questionnaire_answers[questionnaire_id];
 
-    const questionnaire_answers = Object.keys(answers_obj)
-      .map(key => answers_obj[key])
-      .filter(ans => ans);
+    if(!my_questionnaire_answer){
+      throw new Error("未回答の設問に結果はありません。");
+    }
 
-    console.log("questionnaire_answers");
-    console.log(questionnaire_answers);
+    const other_questionnaire_answers = 
+      Array.from(yield QuestionnaireAnswer.find({questionnaire_id}).exec())
+        .filter(qa => !qa._id.equals(my_questionnaire_answer._id)) //自分を排除
+        .map(qa => qa.answers);
 
-    return questionnaires.filter( qn => {
-      //回答が存在するか？
-      let the_answer = questionnaire_answers.find(qa => qa.questionnaire_id == qn.id);
+    console.log("other_questionnaire_answers");
+    console.log(other_questionnaire_answers );
 
-      console.log("the_answer");
-      console.log(the_answer);
+    //questionnaireごとのを、questionごとに転置する
 
-      //存在しないなら、残ってる
-      if(!the_answer){
-        console.log("the answer not exist")
-        return true;
+    const question_ids = questions_obj.question_ids;
+    const answer_feedbacks = Object.assign({},questions_obj.answer_sheet);
+
+    question_ids.forEach((qid)=>{
+      const data = other_questionnaire_answers.map( qna => qna[qid]);
+
+      const sum = data.reduce((a,b)=>a+b,0);
+      const ave = sum / data.length;
+      const vari= data.reduce( (a,b)=> a + (b - ave) * (b - ave),0) / data.length;
+      const dev = Math.sqrt(vari);
+
+      const pointCalcurator = function(x){
+        return Math.exp(- Math.pow((x-ave),2) / (2 *vari ));
       }
 
-      if(!(the_answer.answers)){
-        console.log("the answers in answer not exist")
-        return true;
-      }
+      const my_answer = my_questionnaire_answer.answers[qid];
 
-      let null_exist = Object.keys(the_answer.answers).find(q_id => !the_answer.answers[q_id]);
-
-      //nullが存在するなら残ってる
-      if(null_exist) {
-        console.log("the answer contains null")
-        return true;
-      }
-
-      console.log("the answer is perfect")
-      //回答が存在して、空欄が存在しないなら、残ってない
-      return false;
+      answer_feedbacks[qid] = {
+        data,
+        ave,
+        vari,
+        dev,
+        ave_rate:QuestionnaireAnswer.normalizeAnswerNum(ave),
+        dev_rate:QuestionnaireAnswer.normalizeAnswerNum(dev),
+        my_answer,
+        my_answer_rate:QuestionnaireAnswer.normalizeAnswerNum(my_answer),
+        my_point : pointCalcurator(my_answer) 
+      };
       
     });
 
+
+    const total_point = Object.keys(answer_feedbacks).map(qid => answer_feedbacks[qid].my_point).reduce((a,b)=>a+b)/Object.keys(answer_feedbacks).length;
+
+
+    return {answer_feedbacks, total_point}
   });
 }
 
-module.exports= UserAnswerSchema;
+
+//残ってる設問の列
+UserAnswerSchema.virtual("left_questionnaires").get(function(){
+  const this_user_answer = this;
+  const answers_obj = this_user_answer.questionnaire_answers;
+  const questionnaire_answers = Object.keys(answers_obj)
+    .map(key => answers_obj[key])
+    .filter(ans => ans);
+
+  return questionnaires.filter( qn => {
+    //回答が存在するか？
+    let the_answer = questionnaire_answers.find(qa => qa.questionnaire_id == qn.id);
+
+    //存在しないなら、残ってる
+    if(!the_answer){ return true; }
+
+    //中身が存在しなければ、それも残ってる
+    if(!(the_answer.answers)){ return true; }
+
+    //回答の中に、空欄があるか。
+    let null_exist = Object.keys(the_answer.answers).find(q_id => !the_answer.answers[q_id]);
+
+    //nullが存在するなら残ってる
+    if(null_exist) {
+      return true;
+    }
+
+    //回答が存在して、空欄が存在しないなら、残ってない
+    return false;
+    
+  });
+
+});
+
+module.exports = UserAnswerSchema;

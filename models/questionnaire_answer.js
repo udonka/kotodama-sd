@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-const question_ids = require("../data/questions.js").question_ids;
+const questions_obj= require("../data/questions.js");
+
+const question_ids = questions_obj.question_ids;
 
 //  answers:{
 //    q1:Number,
@@ -20,11 +22,13 @@ var QuestionnaireAnswerSchema = new Schema({
   answers:answer_sheet
 });
 
-/*
-QuestionnaireAnswerSchema.statics.findByQuestionnaireId(function(questionnaire_id){
-  this.find
-});
-*/
+
+QuestionnaireAnswerSchema.statics.normalizeAnswerNum = function(answer_id){
+  const answer_index = answer_id - 1; //[1,9] => [0.8].length==9
+  const bunbo = questions_obj.scale_num -1; //9 => 8
+
+  return answer_index / bunbo;
+}
 
 QuestionnaireAnswerSchema.virtual("hasEmpty").get(function(){
   return Object.keys(this.answers).find(q_id => !this.answers[q_id]);

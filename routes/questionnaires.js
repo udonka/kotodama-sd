@@ -7,10 +7,11 @@ const mongoose = require("mongoose");
 const UserAnswer = mongoose.model("UserAnswer");
 const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
 const questionnaires = require("../data/questionnaires");
-const questions_obj      = require("../data/questions");
-const questions = questions_obj.questions;
-const answer_sheet = questions_obj.answer_sheet;
-const scale_num = 9;
+
+
+const {questions, answer_sheet, scale_num}
+      = require("../data/questions");
+
 
 
 function fetchUserAnswer(req, res, next){
@@ -66,39 +67,30 @@ questionnaires_router.post('/start', function(req, res, next) {
     const is_male = req.body.is_male;
     const age = parseInt(req.body.age);
 
-
     //本当は、ちゃんとしたvalidationやるべき
     console.log(name);
 
     if(name == "" ){
       return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"名前が空欄です"});
     }
-
     if(email == "" ){
       return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスが空欄です"});
     }
-
     if(email_confirm == "" ){
       return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスを再入力してください"});
     }
-
     if(email != email_confirm ){
       return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"同じメールアドレスを二回入力してください"});
     }
-
     if(isNaN(age)){
       return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"年齢は半角数字で入力してください"});
-      
     }
-
-
 
     const new_user_answer = yield UserAnswer.createNew(name,email,is_male,age);
     const result = yield new_user_answer.save();
 
     res.cookie("user_answer_id", new_user_answer.id, {maxAge:600000000});
     res.redirect(path.join(req.baseUrl, "start_really"));
-
   }).catch(e=>next(e));
 });
 
@@ -136,9 +128,6 @@ questionnaires_router.get('/restart', function(req, res, next) {
 
 
 
-questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
-  res.render("finish");
-});
 
 
 
@@ -239,15 +228,65 @@ questionnaires_router.post('/:questionnaire_id', fetchUserAnswer, function(req, 
     const empty_questions = Object.keys(my_answer_sheet).filter(key => my_answer_sheet[key] == null);
 
     if(empty_questions.length == 0 ){
-      const left_questionnaires = yield saved_user_answer.getLeftQuestionnaires();
+      const left_questionnaires = saved_user_answer.left_questionnaires;
 
-      return res.render('thanks', {questionnaire_id, questionnaires, left_questionnaires});
+      return res.redirect(path.join(req.baseUrl, req.url,"thanks"));
     }
     else{
       return res.redirect(path.join(req.baseUrl, req.url));
     }
   }).catch(e=>next(e));
 });
+
+questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function(req, res, next) {
+  co(function*(){
+    const questionnaire_id = req.params.questionnaire_id;
+    const user_answer = req.user_answer;//あることは保証されてる
+    const my_questionnaire_answer = user_answer.questionnaire_answers[questionnaire_id];
+
+    if(!my_questionnaire_answer){
+      return next();
+    }
+
+    const {answer_feedbacks, total_point} 
+      = yield user_answer.getAnswerFeedbacks(questionnaire_id);
+
+    const left_questionnaires = user_answer.left_questionnaires;
+
+    return res.render('thanks', {
+      questionnaire_id,
+      questionnaires,
+      left_questionnaires,
+      answer_feedbacks,
+      total_point
+    });
+  }).catch(e=>next(e));
+});
+
+questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
+  co(function*(){
+    const user_answer = req.user_answer;//あることは保証されてる
+
+    let results = yield Promise.all(questionnaires.map(q=>{
+      const qid = q.id;
+
+      //const {answer_feedbacks, total_point} = yield 
+      return user_answer.getAnswerFeedbacks(qid);
+    }));
+
+    results = results.map((result,index) => ({
+      id:questionnaires[index].id,
+      total_point:result.total_point
+    }));
+
+    const total_total_point = results.reduce((a,b)=>a+b.total_point,0) / results.length;
+
+    res.render("finish", {results, total_total_point});
+
+  }).catch(e=>next(e));
+});
+
+
 
 
 
@@ -258,7 +297,7 @@ questionnaires_router.get('/next',fetchUserAnswer, function(req, res, next) {
 
     const user_answer = req.user_answer;
 
-    let left_questionnaires = yield user_answer.getLeftQuestionnaires();
+    let left_questionnaires = user_answer.left_questionnaires;
 
     console.log("left_questionnaires");
     console.log(left_questionnaires);
