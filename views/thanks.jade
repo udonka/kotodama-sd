@@ -27,8 +27,6 @@ block question_content
 
 
 
-    p.aligncenter
-      a.button(href="/questionnaires/next") 次の設問
 
     //
       pre questionnaires
@@ -50,7 +48,7 @@ block question_content
     - questionnaires_rows.push(qs);
 
     
-    p 残り #{left_questionnaires.length}/#{questionnaires.length} です。
+    p(style="margin-top:3em;text-align:center") 残り #{left_questionnaires.length}/#{questionnaires.length} です。
     table
       each questionnaires_row in questionnaires_rows
         tr
@@ -65,4 +63,7 @@ block question_content
                 else
                   img(src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
               
+
+    p.aligncenter
+      a.button(href="/questionnaires/next") 次の設問
        
