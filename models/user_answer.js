@@ -19,13 +19,28 @@ const questionnaires_schema = questionnaires.reduce((obj, q)=>{
  * */
 
 
+/*
+性別その他
+  radioを追加
+姓、名、ふりがな
+出身（県or国）
+学籍番号（電通大生の場合）
+
+*/
+
 var UserAnswerSchema = new Schema({
   id:Number,
   user_info:{
-    name:  String,
+    name:  {
+      sei:String,
+      mei:String,
+      sei_kana:String,
+      mei_kana:String,
+    },
     email: String,
-    is_male:   Number, //0:男 1:女
+    is_male:   Number, //0:男 1:女 2:その他
     age:   Number, //何歳か
+
   },
   questionnaire_answers: questionnaires_schema ,
 
@@ -191,6 +206,9 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
   });
 }
 
+UserAnswerSchema.virtual("user_info.name_str").get(function(){
+  return this.user_info.name.sei + " " + this.user_info.name.mei;
+});
 
 //残ってる設問の列
 UserAnswerSchema.virtual("left_questionnaires").get(function(){

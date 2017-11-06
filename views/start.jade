@@ -22,7 +22,17 @@ block basic_content
         tr
           th(style="width:30%" ) お名前
           td
-            input(type="text" name="yourname" value="#{yourname || ''}")
+            table(style="margin:0;")
+              tr
+                td 姓
+                  input(type="text" name="sei" value="#{sei || ''}")
+                td 名
+                  input(type="text" name="mei" value="#{mei|| ''}")
+              tr(style="border-bottom:0;")
+                td 姓(かな）
+                  input(type="text" name="sei_kana" value="#{sei_kana || ''}")
+                td 名(かな)
+                  input(type="text" name="mei_kana" value="#{mei_kana || ''}")
 
         tr
           th メール<br>アドレス
@@ -38,11 +48,15 @@ block basic_content
           td
             label
               input(type="radio" name="is_male" value="1" checked=(is_male!=undefined && is_male))
-              男性
+              | 男性
 
             label
               input(type="radio" name="is_male" value="0" checked=(is_male!=undefined && !is_male))
-              女性
+              | 女性
+
+            label
+              input(type="radio" name="is_male" value="2" checked=(is_male!=undefined && is_male==2))
+              | その他
 
         tr
           th 年齢

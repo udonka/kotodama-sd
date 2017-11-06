@@ -13,9 +13,8 @@ block basic_content
     thead
       tr
         td id
-        //
-          td name
-          td email
+        td name
+        td email
         td sex
         td age
         td answers
@@ -25,9 +24,8 @@ block basic_content
         tr
           td
             a(href="/questionnaires/restart?user_answer_id=#{user_answer.id}")=user_answer.id
-          //
-            td= user_answer.user_info.name
-            td= user_answer.user_info.email
+          td= user_answer.user_info.name_str
+          td= user_answer.user_info.email
           - const is_male = user_answer.user_info.is_male;
           td= is_male != undefined && (is_male ? "男" : "女")
           td= user_answer.user_info.age

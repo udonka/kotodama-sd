@@ -61,30 +61,40 @@ questionnaires_router.get('/start', function(req, res, next) {
 
 questionnaires_router.post('/start', function(req, res, next) {
   co(function*(){
-    const name = req.body.yourname; //めんどくさい
+    const sei = req.body.sei; //めんどくさい
+    const mei = req.body.mei; //めんどくさい
+    const sei_kana = req.body.sei_kana; //めんどくさい
+    const mei_kana = req.body.mei_kana; //めんどくさい
+
+    const name_str = sei + mei;
     const email = req.body.email;
     const email_confirm = req.body.email_confirm;
     const is_male = req.body.is_male;
     const age = parseInt(req.body.age);
 
-    //本当は、ちゃんとしたvalidationやるべき
-    console.log(name);
 
-    if(name == "" ){
-      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"名前が空欄です"});
+    if(name_str == " " ){
+      return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"名前が空欄です"});
     }
     if(email == "" ){
-      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスが空欄です"});
+      return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"メールアドレスが空欄です"});
     }
     if(email_confirm == "" ){
-      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"メールアドレスを再入力してください"});
+      return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"メールアドレスを再入力してください"});
     }
     if(email != email_confirm ){
-      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"同じメールアドレスを二回入力してください"});
+      return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"同じメールアドレスを二回入力してください"});
     }
     if(isNaN(age)){
-      return res.render("start",{yourname:name,email,email_confirm,is_male,age,error:"年齢は半角数字で入力してください"});
+      return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"年齢は半角数字で入力してください"});
     }
+
+    const name = {
+      sei,
+      mei,
+      sei_kana,
+      mei_kana,
+    };
 
     const new_user_answer = yield UserAnswer.createNew(name,email,is_male,age);
     const result = yield new_user_answer.save();

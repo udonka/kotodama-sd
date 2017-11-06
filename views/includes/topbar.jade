@@ -8,4 +8,4 @@ mixin topbar(user_answer)
       if user_answer
         div
         p 回答番号: #{user_answer.id}
-        p= user_answer.user_info.name +"様"
+        p= user_answer.user_info.name_str +"様"
