@@ -72,6 +72,9 @@ questionnaires_router.post('/start', function(req, res, next) {
     const is_male = req.body.is_male;
     const age = parseInt(req.body.age);
 
+    const from= req.body.from;
+    const student_id= req.body.student_id;
+
 
     if(name_str == " " ){
       return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"名前が空欄です"});
@@ -96,7 +99,7 @@ questionnaires_router.post('/start', function(req, res, next) {
       mei_kana,
     };
 
-    const new_user_answer = yield UserAnswer.createNew(name,email,is_male,age);
+    const new_user_answer = yield UserAnswer.createNew(name,email,is_male,age,from,student_id);
     const result = yield new_user_answer.save();
 
     res.cookie("user_answer_id", new_user_answer.id, {maxAge:600000000});

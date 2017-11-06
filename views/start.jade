@@ -44,7 +44,7 @@ block basic_content
             input(type="email" name="email_confirm" value="#{email_confirm || ''}")
 
         tr
-          th 性別
+          th 性別(自認する性)
           td
             label
               input(type="radio" name="is_male" value="1" checked=(is_male!=undefined && is_male))
@@ -54,18 +54,22 @@ block basic_content
               input(type="radio" name="is_male" value="0" checked=(is_male!=undefined && !is_male))
               | 女性
 
-            label
-              input(type="radio" name="is_male" value="2" checked=(is_male!=undefined && is_male==2))
-              | その他
 
         tr
           th 年齢
           td
             input(type="text" name="age" value="#{age || ''}" )
+        tr
+          th 出身<br>（県。日本国外の場合、国。）
+          td
+            input(type="text" name="from" value="#{from || ''}" )
+        tr
+          th 学籍番号<br>(電通大生の場合のみ)
+          td
+            input(type="text" name="student_id" value="#{student_id || ''}" )
 
         tr
           td(colspan="2" )
             .aligncenter
               input(type="submit" value="調査開始!")
-
     

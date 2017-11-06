@@ -40,7 +40,8 @@ var UserAnswerSchema = new Schema({
     email: String,
     is_male:   Number, //0:男 1:女 2:その他
     age:   Number, //何歳か
-
+    from: String,
+    student_id: String,
   },
   questionnaire_answers: questionnaires_schema ,
 
@@ -83,7 +84,7 @@ function findEmptyId(UserAnswer){
 }
 
 
-UserAnswerSchema.statics.createNew = function(name, email, is_male, age){ 
+UserAnswerSchema.statics.createNew = function(name, email, is_male, age, from, student_id){ 
   const UserAnswer = this;
   return co(function*(){
 
@@ -101,7 +102,9 @@ UserAnswerSchema.statics.createNew = function(name, email, is_male, age){
         name, 
         email,
         is_male, //1:男 0:女
-        age 
+        age ,
+        from,
+        student_id,
       },
       questionnaire_answers: questionnaires_sheet 
     });
