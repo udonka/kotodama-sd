@@ -182,7 +182,9 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
       const dev = Math.sqrt(vari);
 
       const pointCalcurator = function(x){
-        return Math.exp(- Math.pow((x-ave),2) / (2 *vari ));
+        const val = Math.exp(- Math.pow((x-ave),2) / (2 *vari ));
+        //分散が0だと、分母が0になってしまう。その場合、支持率100か0
+        return isNaN(val) ? 1 : val;
       }
 
       const my_answer = my_questionnaire_answer.answers[qid];
