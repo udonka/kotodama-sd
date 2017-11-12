@@ -3,6 +3,7 @@ extends /layouts/stimulus_layout
 block topbar
   include /includes/topbar
   +topbar(user_answer)
+  a(href="/admin") 管理画面トップ
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
 block stimulus_content

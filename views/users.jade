@@ -1,0 +1,37 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+  a(href="/admin") 管理画面トップ
+
+block basic_content
+  h1 結果報告
+  h2 今までの完全回答数
+
+
+  table
+    thead
+      tr
+        td id
+        td name
+        td email
+        td sex
+        td age
+        td answers
+        td controls
+    tbody
+      each user_answer in all_user_answers
+        tr
+          td
+            a(href="/questionnaires/restart?user_answer_id=#{user_answer.id}")=user_answer.id
+          td= user_answer.user_info.name_str
+          td= user_answer.user_info.email
+          - const is_male = user_answer.user_info.is_male;
+          td= is_male != undefined && (is_male ? "男" : "女")
+          td= user_answer.user_info.age
+          td
+            | 残り#{user_answer.left_questionnaires.length} 個の設問
+            | #{user_answer.left_questionnaires.map(q=>q.id).join(',')}
+          td controls
+
