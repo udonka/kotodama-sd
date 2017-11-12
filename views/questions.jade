@@ -1,0 +1,32 @@
+
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+
+block basic_content
+  h1 質問一覧
+
+  each question in questions
+    h2 #{question.id}: #{question.left} <=> #{question.right}
+
+    table.n
+      tr
+        th(style="width:50px") questionnaire
+        th answer
+
+      each questionnaire in questionnaires_with_ave_var
+        tr
+          td
+            - var questionnaire_id = questionnaire.questionnaire_id;
+            img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png"  style="width:100%")
+          td 
+            - var ave_var = questionnaire.question_answers_ave_var[question.id];
+
+            .answerScale
+              .answerScale__inner
+                .answerScale__dev(style="left:#{ave_var.ave_rate*100}%;margin-left:-#{ave_var.dev_rate*100}%;width:#{ave_var.dev_rate*2*100}%")
+                  .answerScale__ave
+
+                

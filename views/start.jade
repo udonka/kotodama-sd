@@ -37,7 +37,9 @@ block basic_content
         tr
           th メール<br>アドレス
           td
-            input(type="email" name="email" value="#{email || ''}")
+            input(type="email" name="email" value="#{email || ''}") 
+
+            p #{ email }
         tr
           th メール<br>アドレス<br>確認
           td

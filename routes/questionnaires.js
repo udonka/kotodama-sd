@@ -76,7 +76,7 @@ questionnaires_router.post('/start', function(req, res, next) {
     const student_id= req.body.student_id;
 
 
-    if(name_str == " " ){
+    if(name_str == "" ){
       return res.render("start",{sei,mei,sei_kana,mei_kana,email,email_confirm,is_male,age,error:"名前が空欄です"});
     }
     if(email == "" ){

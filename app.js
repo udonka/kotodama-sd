@@ -40,7 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req,res,next){
 
+  res.locals.path = path;
   res.locals.url = req.url;
+  res.locals.baseUrl = req.baseUrl;
 
   next();
 });
@@ -50,7 +52,6 @@ app.use(function(req,res,next){
 app.use('/', index);
 app.use('/questionnaires', questionnaires_router);
 app.use('/admin', admin_router);
-
 
 
 // catch 404 and forward to error handler

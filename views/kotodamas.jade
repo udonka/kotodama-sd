@@ -1,0 +1,35 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+
+
+block basic_content
+  table 
+    thead
+      tr 
+        td コトダマ
+        td ステータス
+    tbody
+      each questionnaire in questionnaires_with_ave_var
+        tr 
+          td(style="width:20%")
+            a(href="#{path.join(url, questionnaire.questionnaire_id)}")
+              img(src="/images/kotodamas/#{questionnaire.questionnaire_id.slice(1)}.png")
+
+          td 
+            each question_id in Object.keys(questionnaire.question_answers_ave_var)
+              - var q_answer = questionnaire.question_answers_ave_var[question_id]
+              - var question = questions.find(q=> q.id == question_id)
+
+              p(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
+              .answerScale
+                .answerScale__inner
+                  .answerScale__dev(
+                    style=" left:#{q_answer.ave_rate*100}%; margin-left:-#{q_answer.dev_rate*100}%; width:#{q_answer.dev_rate*2*100}%")
+                    .answerScale__ave
+              hr
+          
+            
+            

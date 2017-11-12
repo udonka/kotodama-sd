@@ -1,0 +1,24 @@
+extends /layouts/stimulus_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+  a(href="#{path.join(url,'../')}") 一覧に戻る
+
+block stimulus_content
+  .stimulusArea
+    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+
+block question_content
+  .questionArea
+    each question_id in Object.keys(answer_feedbacks)
+      - other_answer =  answer_feedbacks[question_id]
+      - var question = questions.find(q=> q.id == question_id)
+
+      p(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
+      .answerScale
+        .answerScale__inner
+          .answerScale__dev(style="left:#{other_answer.ave_rate*100}%;margin-left:-#{other_answer.dev_rate*100}%;width:#{other_answer.dev_rate*2*100}%")
+            .answerScale__ave
+      hr
+          

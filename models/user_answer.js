@@ -147,6 +147,8 @@ UserAnswerSchema.statics. = function (questionnaire_id){
 */
 
 
+
+
 UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
 
   const this_user_answer = this;
@@ -168,7 +170,13 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
     console.log("other_questionnaire_answers");
     console.log(other_questionnaire_answers );
 
+
+    //const avevar = QuestionnaireAnswer.calcAveVar(exclude:qa._id)
+    // zipするか、それぞれにするかは考え所
+
     //questionnaireごとのを、questionごとに転置する
+
+
 
     const question_ids = questions_obj.question_ids;
     const answer_feedbacks = Object.assign({},questions_obj.answer_sheet);
@@ -203,9 +211,7 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
       
     });
 
-
     const total_point = Object.keys(answer_feedbacks).map(qid => answer_feedbacks[qid].my_point).reduce((a,b)=>a+b)/Object.keys(answer_feedbacks).length;
-
 
     return {answer_feedbacks, total_point}
   });
