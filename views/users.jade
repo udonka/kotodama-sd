@@ -9,6 +9,10 @@ block basic_content
   h1 結果報告
   h2 今までの完全回答数
 
+  style.
+    td{
+      overflow:hidden;
+    }
 
   table
     thead
@@ -19,7 +23,7 @@ block basic_content
         td sex
         td age
         td answers
-        td controls
+        //td controls
     tbody
       each user_answer in all_user_answers
         tr
@@ -32,6 +36,5 @@ block basic_content
           td= user_answer.user_info.age
           td
             | 残り#{user_answer.left_questionnaires.length} 個の設問
-            | #{user_answer.left_questionnaires.map(q=>q.id).join(',')}
-          td controls
+          //td controls
 

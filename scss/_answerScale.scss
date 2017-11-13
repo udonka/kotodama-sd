@@ -19,6 +19,24 @@ $answerScale-height: 40px;
 
 }
 
+.answerScale__data{
+  position:absolute;
+    top:0;
+    bottom:0;
+
+    left:50%; //書き換える
+
+  margin-top:$answerScale-height/4;
+  margin-left:-$answerScale-height/4;
+
+  width:$answerScale-height/2;
+  height: $answerScale-height/2;
+
+  border-radius:$answerScale-height/4;
+  background:hsla(0,0,0, 0.2);
+
+}
+
 .answerScale__dev{
   position:absolute;
     top:0;
@@ -33,8 +51,10 @@ $answerScale-height: 40px;
 
   height: $answerScale-height;
   border-radius:$answerScale-height/2;
-  background:pink;
+  background:hsla(0,100%,50%,0.5);
 }
+
+
 .answerScale__ave{
 
   position:absolute;
@@ -49,7 +69,8 @@ $answerScale-height: 40px;
   height: $answerScale-height;
 
   border-radius:$answerScale-height/2;
-  background:red;
+  border:red solid 3px;
+  background:none;
 }
 .answerScale__myAnswer{
 
