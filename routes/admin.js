@@ -18,7 +18,7 @@ admin_router.use('/kotodamas', kotodamas_router);
 admin_router.use('/questions', questions_router);
 
 admin_router.all('/', basicAuth(function(user, password) {
-  return user === 'admin' && password === 'mk1215skmt';
+  return user === 'admin' && password === 'koseigatakusan';
 }));
 
 
