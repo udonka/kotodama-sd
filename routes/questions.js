@@ -38,7 +38,6 @@ questions_router.get('/', function(req, res, next) {
     res.render("questions",{
       questionnaires_with_ave_var,
       questions,
-      normalize: QuestionnaireAnswer.normalizeAnswerNum
     });
   }).catch(e=>next(e));
 });

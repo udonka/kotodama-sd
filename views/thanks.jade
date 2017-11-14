@@ -10,23 +10,29 @@ block stimulus_content
 
 block question_content
   .questionArea
+    include /includes/answerScale
+
     p ありがとうございました。
-    p この図形に関してあなたのデザイン感覚支持率は#{Math.floor(total_point * 100)}%です。
+    p この図形に関してあなたのデザイン感覚支持率は
+      strong(style="font-size:1.41em") #{Math.floor(total_point * 100)}%
+      | です。
 
 
     each question_id in Object.keys(answer_feedbacks)
       - other_answer =  answer_feedbacks[question_id]
 
-      h3 #{question_id} 支持率: #{Math.floor(other_answer.my_point*100)} %
-      .answerScale
-        .answerScale__inner
-          .answerScale__dev(style="left:#{other_answer.ave_rate*100}%;margin-left:-#{other_answer.dev_rate*100}%;width:#{other_answer.dev_rate*2*100}%")
-            .answerScale__ave
-          .answerScale__myAnswer(style="left:#{other_answer.my_answer_rate * 100}%")= other_answer.my_answer
-          
+      - var question = questions.find(q=>q.id == question_id)
+      h3 #{question.left} - #{question.right}
+      p 支持率: #{Math.floor(other_answer.my_point*100)} %
 
 
 
+      - var ave = other_answer.ave_rate;
+      - var dev = other_answer.dev_rate;
+      - var my_ans_rate= other_answer.my_answer_rate;
+      - var my_ans= other_answer.my_answer;
+      - var data = null;
+      +answerScale(ave, dev, my_ans_rate, my_ans, data)
 
     //
       pre questionnaires

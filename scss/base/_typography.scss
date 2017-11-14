@@ -21,6 +21,13 @@ p {
   margin: 0 0 $small-spacing;
 }
 
+blockquote{
+  margin:1em 0;
+  border:solid 1px #eee;
+  padding:30px;
+
+}
+
 a {
   color: $action-color;
   text-decoration-skip: ink;

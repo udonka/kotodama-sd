@@ -269,6 +269,7 @@ questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function
     return res.render('thanks', {
       questionnaire_id,
       questionnaires,
+      questions,
       left_questionnaires,
       answer_feedbacks,
       total_point

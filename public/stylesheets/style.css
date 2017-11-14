@@ -633,19 +633,25 @@ p {
   margin: 0 0 0.75em; }
 
 /* line 24, scss/base/_typography.scss */
+blockquote {
+  margin: 1em 0;
+  border: solid 1px #eee;
+  padding: 30px; }
+
+/* line 31, scss/base/_typography.scss */
 a {
   color: #1565c0;
   text-decoration-skip: ink;
   transition: color 150ms ease; }
-  /* line 29, scss/base/_typography.scss */
+  /* line 36, scss/base/_typography.scss */
   a:hover {
     color: #104c90; }
-  /* line 33, scss/base/_typography.scss */
+  /* line 40, scss/base/_typography.scss */
   a:focus {
     outline: 3px solid rgba(21, 101, 192, 0.6);
     outline-offset: 2px; }
 
-/* line 39, scss/base/_typography.scss */
+/* line 46, scss/base/_typography.scss */
 hr {
   border-bottom: 1px solid #ddd;
   border-left: 0;
@@ -653,15 +659,15 @@ hr {
   border-top: 0;
   margin: 1.5em 0; }
 
-/* line 48, scss/base/_typography.scss */
+/* line 55, scss/base/_typography.scss */
 .aligncenter {
   text-align: center; }
 
-/* line 52, scss/base/_typography.scss */
+/* line 59, scss/base/_typography.scss */
 .alignleft {
   text-align: center; }
 
-/* line 56, scss/base/_typography.scss */
+/* line 63, scss/base/_typography.scss */
 .alignright {
   text-align: center; }
 

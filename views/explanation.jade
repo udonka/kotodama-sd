@@ -7,30 +7,56 @@ block topbar
 
 
 block basic_content
+  include /includes/answerScale
   .questionArea
     p この調査は、電気通信大学 坂本研究室 修士学生の石井将文の研究の調査です。
     p 私は、人間の視覚と感情の関わりについて調べるために、視覚を学習するAI「コトダマ」を制作しました。電気通信大学より特許申請中の技術です。
     h2 コトダマとは
     p コトダマとは、「複数の色と形が同じ図形をさまざまに配置した図形」というルールに基づき、以下のように、いろんな印象の形に変化することのできるAIです。
 
-    p(style="text-align:center")
-      img(src="/images/kotodamas/kotodama_basic.png" style="width:50%" alt="kotodama")
+    
+    table.n
+      tr
+        td
+          img(src="/images/kotodamas/pokopoko.png" alt="kotodama")
+        td
+          img(src="/images/kotodamas/igaiga.png" alt="kotodama")
+      tr
+        td
+          img(src="/images/kotodamas/kirakira.png" alt="kotodama")
+        td
+          img(src="/images/kotodamas/nyurun.png" alt="kotodama")
+          
 
     p しかし、どのような図形パラメータが、人間が感じるどのような感情（印象）に影響を及ぼすかがまだ明らかではありません。
     p そこで、このアンケート調査により、コトダマにあなたの視覚感情効果を学習させていただきたいのです。
     h2 アンケートについて
-    p アンケートでは、表示されているコトダマの色と形からうける印象について、表示される43の形容詞対をもちいてこたえていただきます。
+    p アンケートでは、表示されているコトダマの色と形からうける印象について、表示される43の形容詞対を用いて答えていただきます。
     p たとえば、このコトダマについてとても暖かいと感じたならば１番を。やや冷たいと感じたならば5番を。どちらでもないと思った場合は４番を選択してください。
 
 
-    
-    p(style="text-align:center")
-      img(src="/images/kotodamas/kotodama_basic.png" style="width:50%" alt="kotodama")
+    blockquote
+      p(style="text-align:center")
+        img(src="/images/kotodamas/hokkori.png" style="width:50%" alt="kotodama")
 
-    include /includes/questionTable
+      include /includes/questionTable
+      +questionTable({left:"あたたかい",right:"つめたい"}, 7)
 
-    +questionTable({left:"あたたかい",right:"つめたい"}, 7)
-    p アンケートの答え方はお分りいただけましたでしょうか？
+
+    h3 回答支持率
+    p ひとつのことだまについてのすべての質問に対して回答が終わると下のように、あなたの回答の支持率が出ます。支持率とは、どれだけ多くの人があなたの回答に賛成しているかの数字で、多くの人と同じ回答（平均値に近い）をすると高くなります。
+
+    blockquote
+      p あたたかい - つめたい 支持率 <strong>64%</strong>
+      +answerScale(0.3, 0.15, 0.5, 4, null)
+
+    p 支持率が高いからといって優れているというわけではありませんので、素直に感じた回答をしていただいてかまいません。しかし適当に回答すると明らかに支持率が低くなりますのでコトダマの学習データに使われない可能性があります。
+
+    h3 デザイン感覚支持率
+    p すべてのことだまについて回答し終えると、あなたの全体的なデザイン感覚支持率がわかります。７０％以上だと、かなり高く、５０％以下はかなり低いです。
+    p また、他の人と比べたあなたの傾向（あたたかいと感じやすい、とか、硬いと感じやすいなど）も出力予定ですので、どうぞ楽しみにしていてください。
+
+
     h3 途中回答について
     p このアンケートは、「回答ID」を覚えておくと、回答を途中から再開できます。
     p 次の画面で個人情報を入力すると、回答ID（６桁の数字）が表示されます。それを忘れずにメモしてください。

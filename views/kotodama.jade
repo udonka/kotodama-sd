@@ -12,14 +12,18 @@ block stimulus_content
 
 block question_content
   .questionArea
+    include /includes/answerScale
+
     each question_id in Object.keys(answer_feedbacks)
       - other_answer =  answer_feedbacks[question_id]
       - var question = questions.find(q=> q.id == question_id)
 
       p(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
-      .answerScale
-        .answerScale__inner
-          .answerScale__dev(style="left:#{other_answer.ave_rate*100}%;margin-left:-#{other_answer.dev_rate*100}%;width:#{other_answer.dev_rate*2*100}%")
-            .answerScale__ave
-      hr
+
+      - var ave = other_answer.ave_rate;
+      - var dev = other_answer.dev_rate;
+      - var data = other_answer.data_rate;
+      +answerScale(ave, dev, null, null, data)
           
+
+      hr

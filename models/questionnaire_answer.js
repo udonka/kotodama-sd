@@ -62,6 +62,7 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
         //いや、でも、結局ユーザーに見せるのは1~7だからな
         ave_rate:QuestionnaireAnswer.normalizeAnswerNum(ave),
         dev_rate:QuestionnaireAnswer.normalizeAnswerNum(dev),
+        data_rate: data.map(point => QuestionnaireAnswer.normalizeAnswerNum(point))
       };
 
     });
