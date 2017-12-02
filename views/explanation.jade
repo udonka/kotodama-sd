@@ -5,6 +5,68 @@ block topbar
   +topbar(user_answer)
 
 
+block append body_end
+  script(type="text/javascript" src="/javascripts/riot.min.js")
+  script(type="text/javascript" src="/riotjs/kotodama-paper.js")
+
+  script(type="text/javascript" src="/javascripts/underscore-min.js")
+
+  script(type="text/javascript" src="/javascripts/imagelib.js")
+
+  script(type="text/javascript" src="/javascripts/Vec2.js")
+  script(type="text/javascript" src="/javascripts/Angle.js")
+  script(type="text/javascript" src="/javascripts/canvaslib.js")
+  script(type="text/javascript" src="/javascripts/Tama.js")
+  script(type="text/javascript" src="/javascripts/Kotodama.js")
+  script(type="text/javascript" src="/javascripts/KotodamaView.js")
+
+  script(type="text/javascript" ).
+    //ことだまオブジェクトを作成 ... いまのところシングルトン
+    var kotodama = new Kotodama({ 
+      generateOptions :{
+        tamaNum:15,sizeDiff:1,forceDiff:-1,separation:1.7,angleSeparation:0.1,angle:3.14,shape:4,colorHue:180,colorSat:0.7,colorVal:0.8,colorAlpha:0.3
+      }
+    }); 
+
+    var kotodamaView = new KotodamaView(kotodama);
+    riot.mount('kotodama-paper', {kotodamaView:kotodamaView, kotodama:kotodama});
+
+    const option_ranges ={
+      tamaNum: [5, 10, true],
+      sizeDiff: [0, 1],
+      forceDiff: [-1, 1],
+      separation: [0, 3],
+      angleSeparation: [0, 0.1],
+      angle: [0, 3.14],
+      shape: [3,7, true],
+      colorHue: [0, 360],
+      colorSat: [0.5,0.7],
+      colorVal: [0.7, 0.8],
+      colorAlpha: [0.3, 1]
+    }
+
+
+
+    // あるキーだけ変化させるコード。つまらん
+    function change1option(current_options){
+      var keys = Object.keys(option_ranges);
+      var change_key = keys[Math.floor(random(0,keys.length))];
+      current_options[change_key] = random(...option_ranges[change_key])
+      return current_options;
+    }
+
+    var random = RandomGenerator(0);
+    setInterval(function(){
+
+      var current_options =  kotodama.getOptions();
+
+      next_options = change1option(current_options);
+
+      kotodama.setOptions(current_options);
+
+    },200);
+    
+
 
 block basic_content
   include /includes/answerScale
@@ -14,18 +76,10 @@ block basic_content
     h2 コトダマとは
     p コトダマとは、「複数の色と形が同じ図形をさまざまに配置した図形」というルールに基づき、以下のように、いろんな印象の形に変化することのできるAIです。
 
+
+    div(style="width:70%;margin:0 auto;")
+      kotodama-paper
     
-    table.n
-      tr
-        td
-          img(src="/images/kotodamas/pokopoko.png" alt="kotodama")
-        td
-          img(src="/images/kotodamas/igaiga.png" alt="kotodama")
-      tr
-        td
-          img(src="/images/kotodamas/kirakira.png" alt="kotodama")
-        td
-          img(src="/images/kotodamas/nyurun.png" alt="kotodama")
           
 
     p しかし、どのような図形パラメータが、人間が感じるどのような感情（印象）に影響を及ぼすかがまだ明らかではありません。

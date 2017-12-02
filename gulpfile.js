@@ -6,6 +6,16 @@ var bourbon_neat = require("bourbon-neat");
 var notify = require("gulp-notify");
 var sourcemaps = require("gulp-sourcemaps");
 
+var riot = require("gulp-riot");
+
+gulp.task("riot", function(){ 
+  return gulp.src("./riottags/*.jade")
+    .pipe(riot( {
+      template:"pug"
+    }))
+    .pipe(gulp.dest("./public/riotjs/"));
+});
+
 
 gulp.task("scss", function(){ 
   return gulp.src("./scss/*.scss")
@@ -22,6 +32,7 @@ gulp.task("scss", function(){
 
 gulp.task('watch',function () {
   gulp.watch("scss/**/*.scss", ["scss"]);
+  gulp.watch("riottags/*.jade", ["riot"]);
 });
 
-gulp.task('default', ['scss', 'watch']);
+gulp.task('default', ['scss', 'watch', 'riot']);

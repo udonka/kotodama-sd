@@ -1,0 +1,153 @@
+kotodama-settings
+  form#view-params
+    h2 View Params
+    table
+      tr
+        td
+          input(type="checkbox" name="showBox" id="showBox" onclick="{viewChecked}")
+          label(for="showBox") Box.
+        td
+          input(type="checkbox" name="showAxis" id="showAxis" onclick="{viewChecked}")
+          label(for="showAxis") Axis.
+      tr
+        td
+          input(type="checkbox" name="showForceVec" id="showForceVec" onclick="{viewChecked}")
+          label(for="showForceVec") Force vector.
+        td
+          input(type="checkbox" name="showMomentVec" id="showMomentVec" onclick="{viewChecked}")
+          label(for="showMomentVec") Moment vector.
+
+
+
+  form#kotodama-params
+    h2 Macro Params
+
+    table#kotodama-params__macro
+      tr
+        td(colspan=2)
+          p tamaNum
+            input(type="range" name ="tamaNum" value="{q.tamaNum}" oninput="{barmoved}"
+              step=1 min=1 max=15)
+      tr
+        td
+          p size variance
+            input(type="range" name ="sizeDiff" value="{q.sizeDiff}" oninput="{barmoved}"
+
+              step=0.1 min=0 max=1)
+        td
+          p force variance
+            input(type="range" name ="forceDiff" value="{q.forceDiff}" oninput="{barmoved}"
+
+              step=0.1 min=-1 max=1)
+
+
+    h2 Micro Params
+    table#kotodama-params__micro
+      tr
+        td
+          p pos separation
+            input(type="range" name ="separation" value="{q.separation}" oninput="{barmoved}"
+              step=0.1 min=0 max=5)
+        td
+          p ang separation
+            input(type="range" name ="angleSeparation" value="{q.angleSeparation}" oninput="{barmoved}"
+              step=0.1 min=0 max=0.1)
+      tr
+        td
+          p angle
+            input(type="range" name ="angle" value="{q.angle}" oninput="{barmoved}"
+              step="3.14" min=0 max="3.14")
+        td
+          p shape > 3
+            input(type="range" name ="shape" value="{q.shape}" oninput="{barmoved}"
+              step=1 min=3 max=7)
+            // 一時的に、5が丸ということにした。
+      tr
+        td
+          p color hue
+            input(type="range" name ="colorHue" value="{q.colorHue}" oninput="{barmoved}"
+              step=10 min=0 max=360)
+        td
+          p color sat
+            input(type="range" name ="colorSat" value="{q.colorSat}" oninput="{barmoved}"
+              step=0.1 min=0 max=1)
+      tr
+        td
+          p color val
+            input(type="range" name ="colorVal" value="{q.colorVal}" oninput="{barmoved}"
+              step=0.1 min=0 max=1)
+        td
+          p color alpha
+            input(type="range" name ="colorAlpha" value="{q.colorAlpha}" oninput="{barmoved}"
+              step=0.1 min=0 max=1)
+
+  script.
+    var kotodama = this.kotodama = opts.kotodama;
+
+    kotodama_params_form = this["kotodama-params"];
+
+    riot.route.start(true);
+
+    var self = this;
+
+    riot.route(function(col,id,act){
+      var q = riot.route.query();
+      
+      kotodama.setOptions(q);
+      self.q = q;
+
+      self.update();
+      /*
+      for(key in q){
+        var value = q[key];
+        console.log(key + " = " + value);
+      }
+      */
+
+    });
+
+    ////////// これをriot routerにやらせる ////////////
+    //戻るボタンとかが押されたときに、スタックにあるものが呼び出される。
+
+
+    /*  *
+    $(window).on('popstate', function(jqevent) {
+      var options = jqevent.originalEvent.state;
+      if (options) {
+        kotodama.setOptions(options);
+      }
+    });
+
+    // */
+
+    var parseOptions = function(form_array){
+      var options = {};
+      _.each(form_array, function(input){
+        options[input.name] = Number(input.value);
+      });
+
+      return options;
+    }; 
+    
+
+    //Pushする
+    var reflectOptions = function(){
+      var form_query = $(kotodama_params_form).serialize();
+
+      riot.route("?"+ form_query);
+    };
+
+    barmoved(e){
+      reflectOptions();
+    }
+
+    viewChecked(e){
+      kotodamaView.setOptions( {
+        showBox       : $(this.showBox).prop("checked") ,
+        showAxis      : $(this.showAxis).prop("checked") ,
+        showForceVec  : $(this.showForceVec).prop("checked") ,
+        showMomentVec : $(this.showMomentVec).prop("checked") 
+      });
+    }
+
+

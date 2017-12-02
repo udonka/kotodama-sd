@@ -1,0 +1,160 @@
+speak-box
+  style(scoped).
+    .speakBox{
+      border:solid 10px black;
+      background:white;
+      padding:30px;
+      min-height:10em;
+
+      font-size:21px;
+      font-family:serif;
+      line-height:1.41;
+
+      position:relative;
+
+    }
+
+    .button{
+      position:absolute;
+      top:0;
+      bottom:0;
+      background:transparent;
+      width:30px;
+      text-align:center;
+    }
+
+    .button:hover{
+
+      background:#aaa;
+      opacity:0.8;
+    }
+
+    .button__content{
+      margin-top:-0.5em;
+      position:absolute;
+      top:50%;
+      left:0;
+      right:0;
+
+
+    }
+    .button--right{
+      right:0;
+
+    }
+    .button--left{
+      left:0;
+    }
+
+    .additional{
+      position:absolute;
+      left:  0px;
+      top:  -20px;
+      height:0px;
+      width: 100%;
+      text-align:center;
+
+    }
+    .additional__image{
+      position:absolute;
+      bottom:0px;
+      left:0px;
+    }
+
+    .progress{
+      position:absolute;
+        top:0;
+        left:0;
+        right:0;
+      height:30px;
+    }
+    .progress__bar{
+      height:100%;
+      background:#eee;
+    }
+
+
+  div.speakBox(onclick="{next}")
+    div#speakContent 
+    div.button.button--right(onclick="{next}") 
+      span.button__content &raquo;
+    div.button.button--left(onclick="{prev}") 
+      span.button__content &laquo;
+
+    div.progress
+      div.progress__bar(style="width:{progress}%")
+
+    div.additional
+      img.additional__image(src="{imgurl}" if="{imgurlExists}")
+    
+
+  script.
+    this.texts = this.opts.speaches;
+    this.kotodama = this.opts.kotodama;
+    this.currentIndex = 0;
+
+    this.on("update", function(){
+      var currentSpeach = this.texts[this.currentIndex];
+      this.speakContent.innerHTML = currentSpeach.text;
+      //+ this.currentIndex;
+
+      if(currentSpeach.kotodamaParams){
+
+        if(Array.isArray(currentSpeach.kotodamaParams )){
+          console.log(currentSpeach.kotodamaParams[0]);
+
+          var this_tag = this;
+          for(var i = 0; i < currentSpeach.kotodamaParams.length; i++){
+
+            //currentSpeachを束縛するための即時関数
+            (function(){
+              var options = currentSpeach.kotodamaParams[i];
+              setTimeout(function (){
+                this_tag.kotodama.setOptions(options);
+              },i * 1000 + 500);
+            }());
+
+          }
+        }
+        else{
+          setTimeout(function (){
+            this.kotodama.setOptions(currentSpeach.kotodamaParams);
+          },500);
+        }
+      }
+
+      if(currentSpeach.imgurl && typeof currentSpeach.imgurl === "string"){
+        this.imgurl = currentSpeach.imgurl;
+        this.imgurlExists = true;
+      }
+      else{
+        this.imgurl = "";
+        this.imgurlExists = false;
+      }
+
+      this.progress = this.currentIndex/this.texts.length * 100;
+    });
+
+
+    next(e){
+      this.currentIndex = (this.currentIndex + 1)%this.texts.length;
+
+      e.stopPropagation();
+    }
+    prev(e){
+      if(this.currentIndex - 1 < 0){
+        this.currentIndex = this.texts.length-1;
+      }
+      else{
+        this.currentIndex = this.currentIndex - 1;
+      }
+
+      e.stopPropagation();
+    }
+
+
+    
+
+
+    
+    

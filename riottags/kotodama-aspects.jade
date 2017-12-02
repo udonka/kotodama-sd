@@ -1,0 +1,61 @@
+kotodama-aspects.jade
+  input(type="button" name="calcButton" value="calc aspects" onclick="{calcAspects}")
+  div(name="canvases")
+
+  dl
+    virtual(each="{key, value in aspects}")
+      dt {key}
+      dd {value}
+
+  script.
+    this.kotodama = opts.kotodama;
+    this.canvasTags = {};
+
+    this_tag = this;
+
+    calcAspects(e){
+
+      //canvasの内容を書く = 背景しろなので、alphaはなくなる
+      alert("aspect");
+
+      var obj = AspectsCalcurator.kotodamaAspects(this.kotodama);
+
+
+      /*
+      for(name in obj.images){
+
+        if(this_tag.canvasTags[name]){
+
+          var canvas = this_tag.canvasTags[name];
+
+        }
+        else{
+          var canvas = document.createElement('canvas');
+          canvas.width = 200;
+          canvas.height = 200;
+
+          this_tag.canvasTags[name] = canvas ;
+          this_tag.canvases.appendChild( canvas );
+        }
+
+        canvas.getContext("2d").putImageData(obj.images[name], 0,0);
+      }*/
+
+      this_tag.aspects = obj.aspects;
+      this_tag.update();
+    }
+
+    /*
+
+    kotodama.on("changed",function(){
+      if(kotodama.isStopped()){
+        calcAspects();
+      }
+    });
+
+    kotodama.on("stopped",function(){
+      calcAspects();
+    });
+
+    */
+
