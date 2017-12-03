@@ -51,6 +51,11 @@ block question_content
     .balloon
 
       p #{responses[questionnaires.length - left_questionnaires.length]} 
+      p #{responses[0]} 
+      p #{responses[2]} 
+      p #{responses[4]} 
+      p #{responses[0]} 
+      p #{responses[18]} 
 
       p 今回の回答のデザイン支持率は、
       p(style="text-align:center")

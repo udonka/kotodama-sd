@@ -1,0 +1,14 @@
+
+.feedback{
+  display:none;
+  &.opened{
+    display:block;
+  }
+}
+
+.feedback__title{
+  border:solid 1px #eee;
+  border-width:1px 0;
+  padding:1em;
+}
+

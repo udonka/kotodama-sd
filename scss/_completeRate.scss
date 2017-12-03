@@ -1,0 +1,20 @@
+.completeRate{
+  background:#eee;
+  position:relative;
+}
+
+.completeRate__bar{
+  background:#fca;
+  height:30px;
+}
+
+.completeRate__number{
+  position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+  text-align:center;
+  line-height:30px;
+}

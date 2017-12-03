@@ -15,7 +15,7 @@ var regularPolygon = function(c, n){
 
   n = Math.max(n, 3);
   c.beginPath();
-  if( n > 5 ){
+  if( n > 6 ){
     c.arc(0, 0, 1, 0, 2*Math.PI, true);
   }
   else{

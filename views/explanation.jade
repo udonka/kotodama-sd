@@ -47,7 +47,7 @@ block append body_end
 
 
 
-    // あるキーだけ変化させるコード。つまらん
+    // あるキーだけ変化させる
     function change1option(current_options){
       var keys = Object.keys(option_ranges);
       var change_key = keys[Math.floor(random(0,keys.length))];
@@ -77,8 +77,9 @@ block basic_content
     p コトダマとは、「複数の色と形が同じ図形をさまざまに配置した図形」というルールに基づき、以下のように、いろんな印象の形に変化することのできるAIです。
 
 
-    div(style="width:70%;margin:0 auto;")
-      kotodama-paper
+    .paperContainer
+      .paperContainer__inner
+        kotodama-paper
     
           
 

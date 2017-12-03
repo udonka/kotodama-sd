@@ -19,9 +19,10 @@ kotodama-paper
 
       //コンテナのカラムの幅
       var container_width = parent.offsetWidth;
+      var container_height = parent.offsetHeight;
  
-      //幅と、ウィンドウの高さを比べる 多くの場合幅が小さいであろう。
-      this.width = Math.min(container_width, window_height) ;
+      //コンテナの幅と高さの小さい方に合わせる
+      this.width = Math.min(container_width, container_height) ;
       this.height= this.width;
 
       //計算されたものを、canvasのサイズとする

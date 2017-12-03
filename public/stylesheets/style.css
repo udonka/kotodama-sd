@@ -716,9 +716,10 @@ body {
   box-sizing: border-box;
   height: 62%;
   padding: 5px;
-  overflow: scroll; }
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch; }
 
-/* line 48, scss/_fullScreenPage.scss */
+/* line 50, scss/_fullScreenPage.scss */
 .fullScreenPage__full {
   position: absolute;
   top: 0;
@@ -936,7 +937,80 @@ tr.questionTable__adjRow {
   background: rgba(0, 0, 0, 0.5);
   color: white; }
 
-/* line 22, scss/style.scss */
+/* line 2, scss/_paperContainer.scss */
+.paperContainer {
+  width: 70%;
+  margin: 0 auto;
+  padding-top: 70%;
+  position: relative; }
+
+/* line 9, scss/_paperContainer.scss */
+.paperContainer__inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+/* line 1, scss/_balloon.scss */
+.balloon {
+  position: relative;
+  display: block;
+  margin: 1.5em 0;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #e0edff; }
+  /* line 12, scss/_balloon.scss */
+  .balloon:before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-bottom: 15px solid #e0edff; }
+  /* line 23, scss/_balloon.scss */
+  .balloon p {
+    margin: 0;
+    padding: 0; }
+
+/* line 2, scss/_feedback.scss */
+.feedback {
+  display: none; }
+  /* line 4, scss/_feedback.scss */
+  .feedback.opened {
+    display: block; }
+
+/* line 9, scss/_feedback.scss */
+.feedback__title {
+  border: solid 1px #eee;
+  border-width: 1px 0;
+  padding: 1em; }
+
+/* line 1, scss/_completeRate.scss */
+.completeRate {
+  background: #eee;
+  position: relative; }
+
+/* line 6, scss/_completeRate.scss */
+.completeRate__bar {
+  background: #fca;
+  height: 30px; }
+
+/* line 11, scss/_completeRate.scss */
+.completeRate__number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  line-height: 30px; }
+
+/* line 27, scss/style.scss */
 a {
   color: #00B7FF; }
 

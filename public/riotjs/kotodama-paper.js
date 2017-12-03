@@ -12,8 +12,9 @@ riot.tag2('kotodama-paper', '<canvas class="kotodama-canvas" name="kotodama_canv
       var window_height =  window.innerHeight;
 
       var container_width = parent.offsetWidth;
+      var container_height = parent.offsetHeight;
 
-      this.width = Math.min(container_width, window_height) ;
+      this.width = Math.min(container_width, container_height) ;
       this.height= this.width;
 
       kotodama_canvas.width=this.width;

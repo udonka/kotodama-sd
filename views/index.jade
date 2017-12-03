@@ -38,8 +38,9 @@ block basic_content
     p この調査では、あなたの図形に対するイメージ「デザイン感覚」を、独自開発のヴィジュアル人工知能「コトダマ」を用いて調べます。
 
 
-    div(style="width:70%;margin:0 auto;")
-      kotodama-paper
+    .paperContainer
+      .paperContainer__inner
+        kotodama-paper
 
 
 
@@ -73,5 +74,8 @@ block basic_content
       p.aligncenter 
         input(type="submit" value="回答IDを使って回答") 
 
+
+
+    img(src="/images/kotodamas/kotodama_basic.png")
 
 
