@@ -695,9 +695,10 @@ body {
   top: 60px;
   left: 0;
   right: 0;
-  bottom: 0; }
+  bottom: 0;
+  -webkit-overflow-scrolling: touch; }
 
-/* line 22, scss/_fullScreenPage.scss */
+/* line 24, scss/_fullScreenPage.scss */
 .fullScreenPage__top {
   position: absolute;
   top: 0;
@@ -707,7 +708,7 @@ body {
   height: 38%;
   padding: 5px; }
 
-/* line 33, scss/_fullScreenPage.scss */
+/* line 35, scss/_fullScreenPage.scss */
 .fullScreenPage__bottom {
   position: absolute;
   right: 0;
@@ -719,7 +720,7 @@ body {
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
 
-/* line 50, scss/_fullScreenPage.scss */
+/* line 52, scss/_fullScreenPage.scss */
 .fullScreenPage__full {
   position: absolute;
   top: 0;
