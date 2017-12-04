@@ -55,7 +55,7 @@ block append body_end
       return current_options;
     }
 
-    var random = RandomGenerator(0);
+    var random = RandomGenerator(Date.now());
     setInterval(function(){
 
       var current_options =  kotodama.getOptions();
