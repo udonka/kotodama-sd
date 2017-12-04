@@ -268,6 +268,7 @@ questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function
 
     return res.render('thanks', {
       responses:[ 
+        "",
         "このアンケートに取り掛かってくれて、ありがとう！ 長かったよね！うんざりしちゃったかもしれないけど、ぼくの顔に免じて、あと一問だけでもお願いできない？",
         "いい感じ！あと3つ答えてくれたら、"+user_answer.user_info.name.sei+"さんにぼくの誕生秘話を教えるね。",
         "",
@@ -286,7 +287,6 @@ questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function
         "あと3問!",
         "ふむふむ、"+user_answer.user_info.name.sei+"さんの回答、とても勉強になるなあ！",
         "あと1問！ここまで来てくれてありがとう！最後に結果発表があるから、あと1問だけがんばってね",
-        "最後まで回答ありがとう！",
       ],
 
       questionnaire_id,
