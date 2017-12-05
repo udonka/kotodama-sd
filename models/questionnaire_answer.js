@@ -24,13 +24,20 @@ var QuestionnaireAnswerSchema = new Schema({
   answers:answer_sheet
 });
 
+
+//ここなら、questions_obj.scale_numを知ってるから、正規化できる
+QuestionnaireAnswerSchema.statics.normalizeDev = function(dev){
+  const bunbo = questions_obj.scale_num -1; //7=>6 (num = 7 ,but length = 6)
+  return dev / bunbo; //[0,1]
+}
+
 //ここなら、questions_obj.scale_numを知ってるから、正規化できる
 QuestionnaireAnswerSchema.statics.normalizeAnswerNum = function(answer_id){
-  const answer_index = answer_id - 1; //[1,9] => [0.8].length==9
-  const bunbo = questions_obj.scale_num -1; //9 => 8
-
-  return answer_index / bunbo;
+  const answer_index = answer_id - 1; //[1,7] => [0,6] ( data_num ==7)
+  const bunbo = questions_obj.scale_num -1; //7=>6 (0 => 0, 6=>1, so length = 6)
+  return answer_index / bunbo; //[0,1]
 }
+
 
 QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
   const QuestionnaireAnswer = this;
@@ -60,7 +67,7 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
         //あらかじめ正規化すべきかもしれない
         //いや、でも、結局ユーザーに見せるのは1~7だからな
         ave_rate:QuestionnaireAnswer.normalizeAnswerNum(ave),
-        dev_rate:QuestionnaireAnswer.normalizeAnswerNum(dev),
+        dev_rate:QuestionnaireAnswer.normalizeDev(dev),
         data_rate: data.map(point => QuestionnaireAnswer.normalizeAnswerNum(point))
       };
 

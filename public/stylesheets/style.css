@@ -866,7 +866,7 @@ tr.questionTable__adjRow {
   color: red;
   text-align: center; }
 
-/* line 4, scss/_answerScale.scss */
+/* line 3, scss/_answerScale.scss */
 .answerScale {
   position: relative;
   background: lightgray;
@@ -874,14 +874,14 @@ tr.questionTable__adjRow {
   width: 100%;
   border-radius: 20px; }
 
-/* line 14, scss/_answerScale.scss */
+/* line 13, scss/_answerScale.scss */
 .answerScale__inner {
   position: relative;
   height: 40px;
   margin-left: 20px;
   margin-right: 20px; }
 
-/* line 22, scss/_answerScale.scss */
+/* line 20, scss/_answerScale.scss */
 .answerScale__data {
   position: absolute;
   top: 0;
@@ -895,7 +895,7 @@ tr.questionTable__adjRow {
   background: black;
   opacity: 0.2; }
 
-/* line 41, scss/_answerScale.scss */
+/* line 39, scss/_answerScale.scss */
 .answerScale__dev {
   position: absolute;
   top: 0;
@@ -905,9 +905,9 @@ tr.questionTable__adjRow {
   width: 10%;
   height: 40px;
   border-radius: 20px;
-  background: rgba(255, 0, 0, 0.5); }
+  background: rgba(255, 0, 0, 0.2); }
 
-/* line 59, scss/_answerScale.scss */
+/* line 57, scss/_answerScale.scss */
 .answerScale__ave {
   position: absolute;
   top: 0;
@@ -920,7 +920,7 @@ tr.questionTable__adjRow {
   border: red solid 3px;
   background: none; }
 
-/* line 76, scss/_answerScale.scss */
+/* line 74, scss/_answerScale.scss */
 .answerScale__myAnswer {
   position: absolute;
   top: 0;

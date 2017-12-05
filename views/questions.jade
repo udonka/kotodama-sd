@@ -11,7 +11,9 @@ block basic_content
   h1 質問xコトダマ
 
   p
-    a(href="#{path.join(url, 'merge')}") 質問ごとの平均
+    a(href="#{path.join(url, 'merge')}") 質問ごとのデータの平均
+    |,
+    a(href="#{path.join(url, 'ave-of-ave')}") 質問ごとの平均の平均
 
   each question in questions
     h2 #{question.id}: #{question.left} <=> #{question.right}

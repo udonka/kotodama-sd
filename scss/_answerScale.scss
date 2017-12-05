@@ -1,4 +1,3 @@
-
 $answerScale-height: 40px;
 
 .answerScale{
@@ -16,7 +15,6 @@ $answerScale-height: 40px;
   height: $answerScale-height;
   margin-left:$answerScale-height/2;
   margin-right:$answerScale-height/2;
-
 }
 
 .answerScale__data{
@@ -52,7 +50,7 @@ $answerScale-height: 40px;
 
   height: $answerScale-height;
   border-radius:$answerScale-height/2;
-  background:hsla(0,100%,50%,0.5);
+  background:hsla(0,100%,50%,0.2);
 }
 
 

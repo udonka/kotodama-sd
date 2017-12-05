@@ -203,7 +203,7 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
         vari,
         dev,
         ave_rate:QuestionnaireAnswer.normalizeAnswerNum(ave),
-        dev_rate:QuestionnaireAnswer.normalizeAnswerNum(dev),
+        dev_rate:QuestionnaireAnswer.normalizeDev(dev),
         my_answer,
         my_answer_rate:QuestionnaireAnswer.normalizeAnswerNum(my_answer),
         my_point : pointCalcurator(my_answer) 
