@@ -4,7 +4,7 @@ mixin answerScale(ave, dev, my_ans_rate, my_ans, data)
       if data && data.length > 0
         each point,index in data
           - var rate = index/data.length // 高さをばらつかせる
-          .answerScale__data(style="left:#{point*100}%;margin-top:#{rate*20}px") 
+          .answerScale__data(style="left:#{point*100}%;margin-top:#{rate*20}px; opacity:#{5/data.length}") 
                 
       .answerScale__dev(style="left:#{ave*100}%;margin-left:-#{dev*100}%;width:#{dev*2*100}%")
         .answerScale__ave

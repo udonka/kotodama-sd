@@ -33,7 +33,8 @@ $answerScale-height: 40px;
   height: $answerScale-height/2;
 
   border-radius:$answerScale-height/4;
-  background:hsla(0,0,0, 0.2);
+  background:black;
+  opacity:0.2;
 
 }
 

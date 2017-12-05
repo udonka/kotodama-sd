@@ -892,9 +892,10 @@ tr.questionTable__adjRow {
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2); }
+  background: black;
+  opacity: 0.2; }
 
-/* line 40, scss/_answerScale.scss */
+/* line 41, scss/_answerScale.scss */
 .answerScale__dev {
   position: absolute;
   top: 0;
@@ -906,7 +907,7 @@ tr.questionTable__adjRow {
   border-radius: 20px;
   background: rgba(255, 0, 0, 0.5); }
 
-/* line 58, scss/_answerScale.scss */
+/* line 59, scss/_answerScale.scss */
 .answerScale__ave {
   position: absolute;
   top: 0;
@@ -919,7 +920,7 @@ tr.questionTable__adjRow {
   border: red solid 3px;
   background: none; }
 
-/* line 75, scss/_answerScale.scss */
+/* line 76, scss/_answerScale.scss */
 .answerScale__myAnswer {
   position: absolute;
   top: 0;

@@ -24,7 +24,6 @@ var QuestionnaireAnswerSchema = new Schema({
   answers:answer_sheet
 });
 
-
 //ここなら、questions_obj.scale_numを知ってるから、正規化できる
 QuestionnaireAnswerSchema.statics.normalizeAnswerNum = function(answer_id){
   const answer_index = answer_id - 1; //[1,9] => [0.8].length==9
@@ -66,13 +65,9 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
       };
 
     });
-
     return answer_feedbacks;
-      
   });
-
   console.log(answer_feedbacks)
-
 }
 
 

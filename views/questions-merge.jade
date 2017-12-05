@@ -1,0 +1,23 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+  a(href="/admin") 管理画面トップ
+  a(href="/admin/questions") 質問xコトダマ
+
+block basic_content
+  include /includes/answerScale
+  h1 質問一覧
+
+  p
+    a(href="#{path.join(url, 'merge')}") 質問ごとの平均
+
+  each question in questions
+    h2 #{question.id}: #{question.left} <=> #{question.right}
+
+    - var ave = question.ave_rate;
+    - var dev = question.dev_rate;
+    - var data = question.data_rate;
+    +answerScale(ave, dev, null, null, data)
+

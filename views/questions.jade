@@ -8,15 +8,18 @@ block topbar
 
 block basic_content
   include /includes/answerScale
-  h1 質問一覧
+  h1 質問xコトダマ
+
+  p
+    a(href="#{path.join(url, 'merge')}") 質問ごとの平均
 
   each question in questions
     h2 #{question.id}: #{question.left} <=> #{question.right}
 
     table.n
       tr
-        th(style="width:50px") questionnaire
-        th answer
+        th(style="width:50px") Q
+        th A
 
       each questionnaire in questionnaires_with_ave_var
         tr
