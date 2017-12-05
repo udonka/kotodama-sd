@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 const questions_obj= require("../data/questions.js");
 
@@ -39,7 +40,8 @@ QuestionnaireAnswerSchema.statics.normalizeAnswerNum = function(answer_id){
 }
 
 
-QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
+//設問IDを渡すと、その設問の書く質問の平均値をくれる
+QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id,exclude_answer_id){
   const QuestionnaireAnswer = this;
 
   return co(function*(){
@@ -47,7 +49,14 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
     
     //一個だけすっ飛ばすオプションとかほしいね。 !!!!!
     //そうすれば、user_answer.getAnswerFeedbackで使える
-    var questionnaire_answers = yield QuestionnaireAnswer.find({questionnaire_id}).exec();//そのidの回答をもっておくる
+    //var questionnaire_answers = yield QuestionnaireAnswer.find({questionnaire_id}).exec();//そのidの回答をもっておくる
+    //
+    var questionnaire_answers = Array.from(yield QuestionnaireAnswer.find({
+      questionnaire_id, 
+    }).exec()) //そのidの回答をもっておくる
+    .filter(qa => {
+      return !(qa._id.equals(exclude_answer_id));
+    });
 
     question_ids.forEach((qid)=>{
       //そのquestionだけとってくる
@@ -70,11 +79,9 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id){
         dev_rate:QuestionnaireAnswer.normalizeDev(dev),
         data_rate: data.map(point => QuestionnaireAnswer.normalizeAnswerNum(point))
       };
-
     });
     return answer_feedbacks;
   });
-  console.log(answer_feedbacks)
 }
 
 

@@ -2,8 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var co = require('co');
 var QuestionnaireAnswerSchema = require("./questionnaire_answer.js");
-const questions_obj      = require("../data/questions"); 
+
+const questions_obj = require("../data/questions"); 
+const {questions, answer_sheet, question_ids, scale_num} = questions_obj;
+
 const questionnaires = require("../data/questionnaires.js");
+
 
 
 const questionnaires_schema = questionnaires.reduce((obj, q)=>{
@@ -139,14 +143,79 @@ UserAnswerSchema.statics.findAndPopulateAnswers = function(q){
 };
 
 
-/* 削除するやつ？するやつ？
-UserAnswerSchema.statics. = function (questionnaire_id){
+UserAnswerSchema.methods.populateAnswers = function (){
+  const this_user_answer_doc = this; //doc
+  return co(function*(){
+    questionnaires.forEach(function(questionnaire){
+      this_user_answer_doc.populate("questionnaire_answers." + questionnaire.id)
+    });
 
-
+    return this_user_answer_doc.execPopulate();
+  }).catch(e=>next(e));
 }
-*/
+
+//この人のセンスの傾向(各質問ごと)を調べる
+UserAnswerSchema.methods.calcSenseTends = function (){
+  const this_user_answer = this; //document
+
+  //自分に対してpopulateすんのめんどくね？ !!!!
+  const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
+
+  return co(function*(){
+    const populated_user_answer = yield this_user_answer.populateAnswers();
+
+    //answer_feedbacks の列
+    const array_of_answer_feedbacks = yield Promise.all(
+      questionnaires.map(qn=>qn.id).map(qn_id=>
+        QuestionnaireAnswer.calcAveVar(qn_id) // , my_questionnaire_answer._id)自分のやつ入っちゃうけど、まいっか⭐︎
+      )
+    );
+
+    const questionnaires_answer_feedbacks =
+      questionnaires.map(qn=>qn.id).map((qn_id,index)=>
+        ({questionnaire_id:qn_id, answer_feedbacks: array_of_answer_feedbacks[index] }));
 
 
+
+    //それぞれの質問に対し ::質問ごとの傾向を見たいので先にこちらをループする。
+    const tends = questions.map((question)=>{
+      //このユーザーの、平均と比べた回答の傾向
+
+      //それぞれの設問に対し平均との差を求めたい
+      const tend_over_questionnaires = questionnaires.map(qn=>{
+        const qn_id = qn.id;
+        //questionの回答を得る
+        const questionnaire_answer =  populated_user_answer.questionnaire_answers[qn_id];
+        const question_answer = questionnaire_answer.answers[question.id];
+
+        //平均の回答
+        const answer_feedbacks = questionnaires_answer_feedbacks.find(q => q.questionnaire_id == qn_id).answer_feedbacks;
+
+        const feedback =  answer_feedbacks[question.id];
+
+        const ave  = feedback.ave;
+
+        const dev = question_answer - ave;//偏差
+        const tend = dev / feedback.dev; //を標準偏差でわる
+
+        //console.log(`設問${qn_id} の質問 ${question.id} について回答は${question_answer} 平均は${ave.toPrecision(3)} 偏差は${dev.toPrecision(3)} 標準偏差は${feedback.dev.toPrecision(3)}なので、傾向は${tend.toPrecision(3)} `);
+
+        return tend;
+
+
+      }).reduce((a,b)=>a+b) / questionnaires.length;
+
+      return {
+        question_id:question.id,
+        question:question,
+        tend:tend_over_questionnaires,
+      }
+    });
+
+    return tends
+
+  });
+};
 
 
 UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
@@ -155,61 +224,46 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
   const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
 
   return co(function*(){
-
     const my_questionnaire_answer = this_user_answer.questionnaire_answers[questionnaire_id];
-
     if(!my_questionnaire_answer){
       throw new Error("未回答の設問に結果はありません。");
     }
 
-    const other_questionnaire_answers = 
-      Array.from(yield QuestionnaireAnswer.find({questionnaire_id}).exec())
-        .filter(qa => !qa._id.equals(my_questionnaire_answer._id)) //自分を排除
-        .map(qa => qa.answers);
+    const answer_feedbacks = yield QuestionnaireAnswer.calcAveVar(questionnaire_id, my_questionnaire_answer._id);
 
-    console.log("other_questionnaire_answers");
-    console.log(other_questionnaire_answers );
-
-
-    //const avevar = QuestionnaireAnswer.calcAveVar(exclude:qa._id)
-    // zipするか、それぞれにするかは考え所
-
-    //questionnaireごとのを、questionごとに転置する
-
-
-
-    const question_ids = questions_obj.question_ids;
-    const answer_feedbacks = Object.assign({},questions_obj.answer_sheet);
-
-    question_ids.forEach((qid)=>{
-      const data = other_questionnaire_answers.map( qna => qna[qid]);
-
-      const sum = data.reduce((a,b)=>a+b,0);
-      const ave = sum / data.length;
-      const vari= data.reduce( (a,b)=> a + (b - ave) * (b - ave),0) / data.length;
-      const dev = Math.sqrt(vari);
-
-      const pointCalcurator = function(x){
-        const val = Math.exp(- Math.pow((x-ave),2) / (2 *vari ));
-        //分散が0だと、分母が0になってしまう。その場合、支持率100か0
-        return isNaN(val) ? 1 : val;
-      }
-
-      const my_answer = my_questionnaire_answer.answers[qid];
-
-      answer_feedbacks[qid] = {
+    /* こんなののれつ {
         data,
         ave,
         vari,
         dev,
         ave_rate:QuestionnaireAnswer.normalizeAnswerNum(ave),
         dev_rate:QuestionnaireAnswer.normalizeDev(dev),
+        data_rate: data.map(point => QuestionnaireAnswer.normalizeAnswerNum(point))
+      };
+    */
+
+
+    //平均はわかった。自分の情報を付け足して返す
+    Object.keys(answer_feedbacks).forEach(function(qid){
+      const feedback = answer_feedbacks[qid];
+
+      const pointCalcurator = function(x){
+        const val = Math.exp(- Math.pow((x-feedback.ave),2) / (2 * feedback.vari ));
+        //分散が0だと、分母が0になってしまう。その場合、支持率100か0
+        return isNaN(val) ? 1 : val;
+      }
+
+      const my_answer = my_questionnaire_answer.answers[qid];
+
+      Object.assign(answer_feedbacks[qid],{
         my_answer,
         my_answer_rate:QuestionnaireAnswer.normalizeAnswerNum(my_answer),
         my_point : pointCalcurator(my_answer) 
-      };
-      
+      });
     });
+
+    console.log("answer_feedbacks");
+    //console.log(answer_feedbacks);
 
     const total_point = Object.keys(answer_feedbacks).map(qid => answer_feedbacks[qid].my_point).reduce((a,b)=>a+b)/Object.keys(answer_feedbacks).length;
 

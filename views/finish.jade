@@ -9,9 +9,8 @@ block basic_content
     p 支持率調査への多大なご協力、ありがとうございました。
 
     p あなたのデザイン感覚支持率は
-      strong #{Math.floor(total_total_point *100)} %
-      |です。
-
+      strong(style="font-size:1.5em") #{Math.floor(total_total_point *100)} %
+      | です。
     
     if total_total_point  > 0.9
       p 非常に多くの方に支持され、称賛されるでしょう。
@@ -28,8 +27,30 @@ block basic_content
     else 
       p とても前衛的でカリスマ的感覚の持ち主です。
 
+    - var sorted_tends = sense_tends.sort((a,b)=>Math.abs(b.tend) - Math.abs(a.tend));
+    - var top_5 = sorted_tends.slice(0,5);
+    p あなたはほかの人と比べて、より
+    p(style="text-align:center")
+      each sense_tend in top_5
+        strong 「#{sense_tend.tend > 0 ? sense_tend.question.right :sense_tend.question.left}」
+        |、
+    p  
+      | と感じがちのようです。
 
-    
+    h3#tendsSwitch 感じがちグラフを開く
+    #tendsGraph(style="")
+      
+      each sense_tend in sorted_tends
+        //p=JSON.stringify(sense_tend)
+        table(style="width:100%")
+          tr
+            td(style="width:10%")= sense_tend.question.left
+            td(style="position:relative")
+              div(style="width:100%")
+                div(style="background:#eee;border-radius:15px;width:30px;height:30px;margin-left:-15px;position:absolute;left:#{sense_tend.tend * 50 + 50}%;") #{sense_tend.tend.toPrecision(3)}
+              
+            td(style="width:10%")= sense_tend.question.right
+
 
     - qs = Object.assign({}, results);
     - var rows_num = 5;

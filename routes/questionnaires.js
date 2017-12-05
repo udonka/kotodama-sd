@@ -290,7 +290,6 @@ questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function
       ],
 
       questionnaire_id,
-
       questionnaires,
       questions,
       left_questionnaires,
@@ -311,14 +310,18 @@ questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
       return user_answer.getAnswerFeedbacks(qid);
     }));
 
+    const sense_tends = yield user_answer.calcSenseTends();
+
+
     results = results.map((result,index) => ({
       id:questionnaires[index].id,
-      total_point:result.total_point
+      total_point:result.total_point,
+      
     }));
 
     const total_total_point = results.reduce((a,b)=>a+b.total_point,0) / results.length;
 
-    res.render("finish", {results, total_total_point});
+    res.render("finish", {results, total_total_point,sense_tends});
 
   }).catch(e=>next(e));
 });

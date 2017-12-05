@@ -15,22 +15,16 @@ const questions = require("../data/questions").questions;
 //設問一覧ページ
 kotodamas_router.get('/', function(req, res, next) {
   co(function*(){
-    
     const questionnaires_with_ave_var = [];
-
     for(const questionnaire of questionnaires){
       const questionnaire_id = questionnaire.id;
-
       const question_answers_ave_var
         = yield QuestionnaireAnswer.calcAveVar(questionnaire_id);
       questionnaires_with_ave_var.push({
         questionnaire_id,
         question_answers_ave_var
       });
-
-      console.log(question_answers_ave_var);
     }
-
 
     //設問ごとに表示
     res.render("kotodamas",{
