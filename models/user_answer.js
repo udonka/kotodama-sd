@@ -47,7 +47,7 @@ var UserAnswerSchema = new Schema({
     from: String,
     student_id: String,
   },
-  questionnaire_answers: questionnaires_schema ,
+  questionnaire_answers: Schema.Types.Mixed
 
   
 });

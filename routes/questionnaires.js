@@ -149,13 +149,6 @@ questionnaires_router.get('/:questionnaire_id',fetchUserAnswer, function(req, re
   return co(function*(){
     const questionnaire_id = req.params.questionnaire_id;
 
-    //設問が見つからなかったら
-    //
-    if(questionnaires.findIndex(q => q.id == questionnaire_id) == -1){
-      return next();
-    }
-
-
     const user_answer = req.user_answer;
 
     //すでにある回答を検索
@@ -191,10 +184,6 @@ questionnaires_router.post('/:questionnaire_id', fetchUserAnswer, function(req, 
   co(function*(){
     const questionnaire_id = req.params.questionnaire_id;
 
-    //設問が見つからなかったら(k1とかのやつ)
-    if(questionnaires.findIndex(q => q.id == questionnaire_id) == -1){
-      return next();
-    }
 
     const user_answer = req.user_answer;
 
