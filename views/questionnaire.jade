@@ -1,13 +1,12 @@
 extends /layouts/stimulus_layout
 
-
 block topbar
   include /includes/topbar
   +topbar(user_answer)
 
 block stimulus_content
-  .stimulusArea
-    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+  .stimulusArea 
+    h1 #{questionnaire_id}
 
 block question_content
   .questionArea

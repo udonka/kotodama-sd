@@ -168,6 +168,9 @@ questionnaires_router.get('/:questionnaire_id',fetchUserAnswer, function(req, re
       //空欄を調べる。空欄があってはならない。
       const empty_questions = Object.keys(my_answers).filter(key => my_answers[key] == null);
 
+      if(empty_questions.length == 0){
+        return res.redirect(path.join(req.baseUrl,req.url,"thanks"));
+      }
 
       //回答を含めて表示
       res.render('questionnaire', {
@@ -269,24 +272,23 @@ questionnaires_router.get('/:questionnaire_id/thanks', fetchUserAnswer, function
     return res.render('thanks', {
       responses:[ 
         "",
-        "このアンケートに取り掛かってくれて、ありがとう！ 長かったよね！うんざりしちゃったかもしれないけど、ぼくの顔に免じて、あと一問だけでもお願いできない？",
-        "いい感じ！あと3つ答えてくれたら、"+user_answer.user_info.name.sei+"さんにぼくの誕生秘話を教えるね。",
         "",
-        "忘れてないよね？あと1問答えてくれたら、ぼくのヒミツを教えるからね！",
-        "実はぼくって、外人さんに漢字のニュアンスを少しでもわかりやすく伝えるために、設計されたんだ。うまくいくといいなあ。",
         "",
-        "ふー！ぼくも、アンケート中は呼吸を止めて静止するから時々休憩が必要なんだ",
-        "ここまで耐えてくれてありがとう！肩の力を抜いて、あんまり深く考えずに答えてね。",
-        "もしかしてちょっとイヤになってきてる・・・？右上の「回答ID」を覚えておけば、後からも回答を再開できるから、時々休んでね。",
         "",
-        "すごいすごい！ここまで頑張ってくれる人はなかなかいないんだ。最後までお願いできると、とっても助かるな！",
         "",
-        "もう少しだよ！",
         "",
-        "回答を見ていて思ったんだけど、"+user_answer.user_info.name.sei+"さんって、やさしいんだね！",
-        "あと3問!",
-        "ふむふむ、"+user_answer.user_info.name.sei+"さんの回答、とても勉強になるなあ！",
-        "あと1問！ここまで来てくれてありがとう！最後に結果発表があるから、あと1問だけがんばってね",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
       ],
 
       questionnaire_id,
@@ -328,28 +330,12 @@ questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
 
 
 
-
-
 questionnaires_router.get('/next',fetchUserAnswer, function(req, res, next) {
   co(function*(){
     //回答を見つける
     //残ってる回答
 
-    const user_answer = req.user_answer;
-
-    let left_questionnaires = user_answer.left_questionnaires;
-
-    console.log("left_questionnaires");
-    console.log(left_questionnaires);
-
-    if(left_questionnaires.length == 0){
-      return res.redirect(path.join(req.baseUrl,"finish"));
-    }
-
-    const random_index = Math.floor( Math.random() * left_questionnaires.length) ;
-    const random_next_questionnaire = left_questionnaires[random_index];
-
-    res.redirect(path.join(req.baseUrl, random_next_questionnaire.id));
+    res.redirect(path.join(req.baseUrl));
 
   }).catch(e=>next(e));
 });

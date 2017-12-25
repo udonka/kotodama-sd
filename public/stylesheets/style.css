@@ -705,7 +705,7 @@ body {
   right: 0;
   left: 0;
   box-sizing: border-box;
-  height: 38%;
+  height: 10%;
   padding: 5px; }
 
 /* line 35, scss/_fullScreenPage.scss */
@@ -715,7 +715,7 @@ body {
   left: 0;
   bottom: 0;
   box-sizing: border-box;
-  height: 62%;
+  height: 90%;
   padding: 5px;
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
@@ -777,10 +777,20 @@ body {
   right: 0;
   bottom: 0; }
 
-/* line 12, scss/_stimulusArea.scss */
+/* line 9, scss/_stimulusArea.scss */
 .stimulusArea img {
   margin: 0 auto;
   display: block;
+  height: 100%; }
+
+/* line 17, scss/_stimulusArea.scss */
+.stimulusArea h1 {
+  text-align: center;
+  font-size: 50px;
+  justify-content: center;
+  /* 3 */
+  align-items: center;
+  /* 4 */
   height: 100%; }
 
 /* line 1, scss/_questionArea.scss */
