@@ -1,4 +1,3 @@
-
 extends /layouts/basic_layout
 
 block topbar
@@ -27,11 +26,9 @@ block basic_content
         tr
           td
             - var questionnaire_id = questionnaire.questionnaire_id;
-            img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png"  style="width:100%")
+            p #{questionnaire_id}
           td 
             - var ave_var = questionnaire.question_answers_ave_var[question.id];
-
-
             - var ave = ave_var.ave_rate;
             - var dev = ave_var.dev_rate;
             - var data = ave_var.data_rate;
