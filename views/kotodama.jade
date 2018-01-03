@@ -7,8 +7,7 @@ block topbar
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
 block stimulus_content
-  .stimulusArea
-    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+  .stimulusArea #{questionnaire_id}
 
 block question_content
   .questionArea

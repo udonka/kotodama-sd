@@ -18,9 +18,7 @@ block basic_content
       each questionnaire in questionnaires_with_ave_var
         tr 
           td(style="width:20%")
-            a(href="#{path.join(url, questionnaire.questionnaire_id)}")
-              img(src="/images/kotodamas/#{questionnaire.questionnaire_id.slice(1)}.png")
-
+            a(href="#{path.join(url, questionnaire.questionnaire_id)}") #{questionnaire.questionnaire_id}
           td 
             each question_id in Object.keys(questionnaire.question_answers_ave_var)
               - var q_answer = questionnaire.question_answers_ave_var[question_id]

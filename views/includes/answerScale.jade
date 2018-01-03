@@ -18,8 +18,7 @@ mixin answerScale(ave, dev, my_ans_rate, my_ans, data)
               style="left:#{point*100}%;margin-top:#{rate*20}px; opacity:#{5/data.length}") 
           else if typeof point == "object"
             .answerScale__data(
-              style="left:#{point.ave*100}%;margin-top:#{rate*20}px; opacity:1;background:none") 
-              img(src="/images/kotodamas/#{point.questionnaire_id.slice(1)}.png"  style="width:100%")
+              style="left:#{point.ave*100}%;margin-top:#{rate*20}px; opacity:1;background:none")  #{point.questionnaire_id}
 
 
 
