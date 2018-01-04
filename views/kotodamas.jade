@@ -26,7 +26,8 @@ block basic_content
               - var q_answer = questionnaire.question_answers_ave_var[question_id]
               - var question = questions.find(q=> q.id == question_id)
 
-              //p(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
+              p 
+              div(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
 
               - var ave = q_answer.ave_rate;
               - var dev = q_answer.dev_rate;

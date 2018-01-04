@@ -14,6 +14,9 @@ block question_content
   .questionArea
     include /includes/answerScale
 
+    p
+      a(href="/admin/kotodamas/csv/#{questionnaire_id}") CSVで開く
+
     each question_id in Object.keys(answer_feedbacks)
       - other_answer =  answer_feedbacks[question_id]
       - var question = questions.find(q=> q.id == question_id)

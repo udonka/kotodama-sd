@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var co = require('co');
-var QuestionnaireAnswerSchema = require("./questionnaire_answer.js");
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const co = require('co');
+const QuestionnaireAnswerSchema = require("./questionnaire_answer.js");
 
 const questions_obj = require("../data/questions"); 
 const {questions, answer_sheet, question_ids, scale_num} = questions_obj;
@@ -35,7 +35,7 @@ const questionnaires_schema = questionnaires.reduce((obj, q)=>{
 var UserAnswerSchema = new Schema({
   id:Number,
   user_info:{
-    name:  {
+    name: {
       sei:String,
       mei:String,
       sei_kana:String,
@@ -272,7 +272,12 @@ UserAnswerSchema.methods.getAnswerFeedbacks = function (questionnaire_id){
 }
 
 UserAnswerSchema.virtual("user_info.name_str").get(function(){
-  return this.user_info.name.sei + " " + this.user_info.name.mei;
+  if(this.user_info.name.sei == undefined){
+    return this.user_info.name;
+  }
+  else{
+    return this.user_info.name.sei + " " + this.user_info.name.mei;
+  }
 });
 
 //残ってる設問の列
