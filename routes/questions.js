@@ -12,7 +12,6 @@ const questionnaires = require("../data/questionnaires");
 const questions = require("../data/questions").questions;
 
 
-
 //設問一覧ページ
 questions_router.get('/', function(req, res, next) {
   co(function*(){
@@ -43,6 +42,27 @@ questions_router.get('/', function(req, res, next) {
 });
 
 //設問一覧ページ
+questions_router.get('/questions.json', function(req, res, next) {
+  co(function*(){
+    const questionnaires_with_ave_var = [];
+
+    for(const questionnaire of questionnaires){
+      const questionnaire_id = questionnaire.id;
+      const question_answers_ave_var
+        = yield QuestionnaireAnswer.calcAveVar(questionnaire_id);
+
+      questionnaires_with_ave_var.push({
+        questionnaire_id,
+        question_answers_ave_var
+      });
+      console.log(question_answers_ave_var);
+    }
+    res.json(questionnaires_with_ave_var);
+  }).catch(e=>next(e));
+});
+
+
+//設問一覧ページ
 questions_router.get('/merge', function(req, res, next) {
   co(function*(){
     const questionnaires_with_ave_var = [];
@@ -57,7 +77,6 @@ questions_router.get('/merge', function(req, res, next) {
     }
 
     let questions_with_data = questions.map((question)=>{
-
       let all_data = questionnaires_with_ave_var.reduce((memo,questionnaire_with_ave_var)=>{
         return memo.concat(
           questionnaire_with_ave_var.question_answers_ave_var[question.id].data);

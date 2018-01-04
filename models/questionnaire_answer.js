@@ -47,10 +47,6 @@ QuestionnaireAnswerSchema.statics.calcAveVar = function (questionnaire_id,exclud
   return co(function*(){
     const answer_feedbacks = {};
     
-    //一個だけすっ飛ばすオプションとかほしいね。 !!!!!
-    //そうすれば、user_answer.getAnswerFeedbackで使える
-    //var questionnaire_answers = yield QuestionnaireAnswer.find({questionnaire_id}).exec();//そのidの回答をもっておくる
-    //
     var questionnaire_answers = Array.from(yield QuestionnaireAnswer.find({
       questionnaire_id, 
     }).exec()) //そのidの回答をもっておくる
