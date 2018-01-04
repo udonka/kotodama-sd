@@ -9,7 +9,12 @@ block topbar
 
 block basic_content
   include /includes/answerScale
+
+
   h1 質問一覧
+
+  p 
+    a(href="#{url}.csv") csv
 
   - var sorted_questions = questions.sort((a,b)=>a.dev_rate - b.dev_rate)
 
