@@ -8,11 +8,8 @@ const UserAnswer = mongoose.model("UserAnswer");
 const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
 const questionnaires = require("../data/questionnaires");
 
-
 const {questions, answer_sheet, scale_num}
       = require("../data/questions");
-
-
 
 function fetchUserAnswer(req, res, next){
   return co(function*(){
@@ -38,6 +35,8 @@ function fetchUserAnswer(req, res, next){
 
   }).catch(e=>next(e));
 }
+
+questionnaires_router.fetchUserAnswer = fetchUserAnswer;
 
 
 //設問一覧ページ
@@ -312,11 +311,9 @@ questionnaires_router.get('/finish', fetchUserAnswer, function(req, res, next) {
 
     const sense_tends = yield user_answer.calcSenseTends();
 
-
     results = results.map((result,index) => ({
       id:questionnaires[index].id,
       total_point:result.total_point,
-      
     }));
 
     const total_total_point = results.reduce((a,b)=>a+b.total_point,0) / results.length;

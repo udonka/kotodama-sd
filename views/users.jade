@@ -7,6 +7,9 @@ block topbar
 
 block basic_content
   h1 結果報告
+
+  a(href="/admin/users.csv") [ユーザー, (全設問x質問)]結果をcsvで出力
+
   h2 今までの完全回答数
 
   style.
@@ -23,12 +26,11 @@ block basic_content
         td sex
         td age
         td answers
-        //td controls
     tbody
       each user_answer in all_user_answers
         tr
           td
-            a(href="/questionnaires/restart?user_answer_id=#{user_answer.id}")=user_answer.id
+            a(href="#{path.join(url,user_answer.id.toString())}")= user_answer.id 
           td= user_answer.user_info.name_str
           td= user_answer.user_info.email
           - const is_male = user_answer.user_info.is_male;
@@ -36,5 +38,5 @@ block basic_content
           td= user_answer.user_info.age
           td
             | 残り#{user_answer.left_questionnaires.length} 個の設問
-          //td controls
+            
 
