@@ -10,6 +10,7 @@ const UserAnswer = mongoose.model("UserAnswer");
 const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
 const questionnaires = require("../data/questionnaires");
 const questions = require("../data/questions").questions;
+const question_ids = require("../data/questions").question_ids;
 
 
 //設問一覧ページ
@@ -34,6 +35,32 @@ kotodamas_router.get('/', function(req, res, next) {
   }).catch(e=>next(e));
 });
 
+
+//設問一覧ページ
+kotodamas_router.get('/csv/:questionnaire_id', function(req, res, next) {
+  co(function*(){
+    const questionnaire_id = req.params.questionnaire_id;
+    const answer_feedbacks
+      = yield QuestionnaireAnswer.calcAveVar(questionnaire_id);
+
+    const table_head = [questionnaire_id ];
+    const table_body = question_ids.map((q_id)=>{
+
+
+      return [q_id, ...(answer_feedbacks[q_id].data)];
+    });
+
+    const table = [table_head, ...table_body];
+
+    console.log(table);
+
+    res.csv(table);
+
+  }).catch(e=>next(e));
+
+
+
+});
 
 
 //設問一覧ページ

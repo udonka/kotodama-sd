@@ -12,6 +12,7 @@
     "bourbon-neat": "^1.9.0",
     "co": "^4.6.0",
     "cookie-parser": "~1.4.3",
+    "csv-express": "^1.2.2",
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "gulp": "^3.9.1",

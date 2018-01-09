@@ -1,0 +1,82 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar()
+  a(href="/admin") 管理画面トップ
+  ||
+  a(href="/admin/users") ユーザー一覧画面
+
+block basic_content
+  h1 #{user_answer.user_info.name_str} さん
+
+  p
+    a(href="/questionnaires/restart?user_answer_id=#{user_answer.id}") 結果ページへ
+
+  p
+    a(href="/admin/users/#{user_answer.id}.json") JSON
+
+
+  if error
+    p(style="color:red")= error
+
+  form(action="#{url}" method="post")
+    table
+      tr
+        th(style="width:30%" ) お名前
+        td
+          table(style="margin:0;")
+            tr
+              td 姓
+                input(type="text" name="sei" value="#{user_answer.user_info.name.sei || ''}")
+
+              td 名
+                input(type="text" name="mei" value="#{user_answer.user_info.name.mei|| ''}")
+            tr(style="border-bottom:0;")
+              td 姓(かな）
+                input(type="text" name="sei_kana" value="#{user_answer.user_info.name.sei_kana || ''}")
+              td 名(かな)
+                input(type="text" name="mei_kana" value="#{user_answer.user_info.name.mei_kana || ''}")
+
+      tr
+        th メール<br>アドレス
+        td
+          input(type="email" name="email" value="#{user_answer.user_info.email || ''}") 
+
+          p #{ email }
+      tr
+        th メール<br>アドレス<br>確認
+        td
+          input(type="email" name="email_confirm" value="#{user_answer.user_info.email || ''}")
+
+      tr
+        th 性別(自認する性)
+        td
+          label
+            input(type="radio" name="is_male" value="1" checked=(user_answer.user_info.is_male!=undefined && is_male))
+            | 男性
+
+          label
+            input(type="radio" name="is_male" value="0" checked=(user_answer.user_info.is_male!=undefined && !is_male))
+            | 女性
+
+
+      tr
+        th 年齢
+        td
+          input(type="text" name="age" value="#{user_answer.user_info.age || ''}" )
+      tr
+        th 出身<br>（県。日本国外の場合、国。）
+        td
+          input(type="text" name="from" value="#{user_answer.user_info.from || ''}" )
+      tr
+        th 学籍番号<br>(電通大生の場合のみ)
+        td
+          input(type="text" name="student_id" value="#{user_answer.user_info.student_id || ''}" )
+
+      tr
+        td(colspan="2" )
+          .aligncenter
+            input(type="submit" value="ユーザー情報変更")
+  
+

@@ -7,12 +7,19 @@ block topbar
 
 block basic_content
   include /includes/answerScale
-  h1 質問xコトダマ
 
   p
     a(href="#{path.join(url, 'merge')}") 質問ごとのデータの平均
     |,
     a(href="#{path.join(url, 'ave-of-ave')}") 質問ごとの平均の平均
+
+
+  hr
+  h1 質問xコトダマ
+
+  p
+    a(href="#{url}/questions.json") json
+
 
   each question in questions
     h2 #{question.id}: #{question.left} <=> #{question.right}
