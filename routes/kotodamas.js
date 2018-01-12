@@ -43,11 +43,11 @@ kotodamas_router.get('/csv/:questionnaire_id', function(req, res, next) {
     const answer_feedbacks
       = yield QuestionnaireAnswer.calcAveVar(questionnaire_id);
 
-    const table_head = [questionnaire_id ];
-    const table_body = question_ids.map((q_id)=>{
+    const table_head = [questionnaire_id  , ... Array.from(Array(answer_feedbacks[question_ids[0]].data.length).keys()).map(i => "u" + (i+1))];
 
-
-      return [q_id, ...(answer_feedbacks[q_id].data)];
+    const table_body = questions.map((question)=>{
+      const q_id = question.id;
+      return [`${q_id} ${question.left} - ${question.right}`, ...(answer_feedbacks[q_id].data)];
     });
 
     const table = [table_head, ...table_body];
