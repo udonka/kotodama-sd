@@ -650,8 +650,12 @@ a {
   a:focus {
     outline: 3px solid rgba(21, 101, 192, 0.6);
     outline-offset: 2px; }
+  /* line 45, scss/base/_typography.scss */
+  a.n {
+    color: inherit;
+    text-decoration: inherit; }
 
-/* line 46, scss/base/_typography.scss */
+/* line 52, scss/base/_typography.scss */
 hr {
   border-bottom: 1px solid #ddd;
   border-left: 0;
@@ -659,15 +663,15 @@ hr {
   border-top: 0;
   margin: 1.5em 0; }
 
-/* line 55, scss/base/_typography.scss */
+/* line 61, scss/base/_typography.scss */
 .aligncenter {
   text-align: center; }
 
-/* line 59, scss/base/_typography.scss */
+/* line 65, scss/base/_typography.scss */
 .alignleft {
   text-align: center; }
 
-/* line 63, scss/base/_typography.scss */
+/* line 69, scss/base/_typography.scss */
 .alignright {
   text-align: center; }
 

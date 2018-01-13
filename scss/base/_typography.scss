@@ -41,6 +41,12 @@ a {
     outline: $focus-outline;
     outline-offset: $focus-outline-offset;
   }
+
+  &.n{
+    color: inherit;
+    text-decoration: inherit;
+    
+  }
 }
 
 hr {
