@@ -1,86 +1,87 @@
 kotodama-paper
-  canvas.kotodama-canvas(name="kotodama_canvas")
+  //
+    canvas.kotodama-canvas(name="kotodama_canvas")
 
-  script.
-    var kotodama = this.kotodama = opts.kotodama;
-    var kotodamaView = this.kotodamaView = opts.kotodamaView;
+    script.
+      var kotodama = this.kotodama = opts.kotodama;
+      var kotodamaView = this.kotodamaView = opts.kotodamaView;
 
-    var kotodama_canvas = this.kotodama_canvas;
+      var kotodama_canvas = this.kotodama_canvas;
 
-    /////////幅と高さを計算
-    //まず、ウインドウ
+      /////////幅と高さを計算
+      //まず、ウインドウ
 
-    this.on("mount", function(){
-      //mountされてはじめて、幅がわかgtる
+      this.on("mount", function(){
+        //mountされてはじめて、幅がわかgtる
 
-      var parent = this.root.parentNode;
+        var parent = this.root.parentNode;
 
-      var window_height =  window.innerHeight;
+        var window_height =  window.innerHeight;
 
-      //コンテナのカラムの幅
-      var container_width = parent.offsetWidth;
-      var container_height = parent.offsetHeight;
- 
-      //コンテナの幅と高さの小さい方に合わせる
-      this.width = Math.min(container_width, container_height) ;
-      this.height= this.width;
+        //コンテナのカラムの幅
+        var container_width = parent.offsetWidth;
+        var container_height = parent.offsetHeight;
+   
+        //コンテナの幅と高さの小さい方に合わせる
+        this.width = Math.min(container_width, container_height) ;
+        this.height= this.width;
 
-      //計算されたものを、canvasのサイズとする
-      kotodama_canvas.width=this.width;
-      kotodama_canvas.height=this.height;
-      //$kotodama_container.height(this.height); //親にもおしえる
+        //計算されたものを、canvasのサイズとする
+        kotodama_canvas.width=this.width;
+        kotodama_canvas.height=this.height;
+        //$kotodama_container.height(this.height); //親にもおしえる
 
-      console.log(this.width + " " + this.height);
+        console.log(this.width + " " + this.height);
 
-      //Viewにもおしえる
-      kotodamaView.setOptions({
-        position:new Vec2(this.width/2, this.height/2),
-        size:this.width*0.9
+        //Viewにもおしえる
+        kotodamaView.setOptions({
+          position:new Vec2(this.width/2, this.height/2),
+          size:this.width*0.9
+        });
       });
-    });
 
-    //Canvasコンテキスト
-    var c = kotodama_canvas.getContext("2d");
-    var this_tag = this;
+      //Canvasコンテキスト
+      var c = kotodama_canvas.getContext("2d");
+      var this_tag = this;
 
 
-    function drawKotodama(t){ //tはミリ秒値
+      function drawKotodama(t){ //tはミリ秒値
 
-      //var canvas_height = kotodama_canvas.height; 同じ
-      // 4. Draw graphics.
+        //var canvas_height = kotodama_canvas.height; 同じ
+        // 4. Draw graphics.
 
-      kotodama.move(t);
+        kotodama.move(t);
 
-      if(!kotodama.isStopped() || kotodama.hasChanged()){
-        c.clearRect(0,0,this_tag.width,this_tag.height);
-        kotodamaView.draw(c);
+        if(!kotodama.isStopped() || kotodama.hasChanged()){
+          c.clearRect(0,0,this_tag.width,this_tag.height);
+          kotodamaView.draw(c);
+        }
       }
-    }
 
 
 
-    //アニメーションの設定
-    (function animationSettings(){
-      //関数を設定
-      (function() {
-        var requestAnimationFrame = 
-          window.requestAnimationFrame || 
-          window.mozRequestAnimationFrame ||
-          window.webkitRequestAnimationFrame || 
-          window.msRequestAnimationFrame;
+      //アニメーションの設定
+      (function animationSettings(){
+        //関数を設定
+        (function() {
+          var requestAnimationFrame = 
+            window.requestAnimationFrame || 
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame || 
+            window.msRequestAnimationFrame;
 
-        window.requestAnimationFrame = requestAnimationFrame;
-      }());
+          window.requestAnimationFrame = requestAnimationFrame;
+        }());
 
-      //ステップ
-      function frame(timestamp) {
-        drawKotodama(timestamp );
+        //ステップ
+        function frame(timestamp) {
+          drawKotodama(timestamp );
+          requestAnimationFrame(frame);
+        }
+        //すぐに開始する。何かと読み込むのは心配。それともちょうどいいイベントないかしら
+        //setTimeout(function(){
         requestAnimationFrame(frame);
-      }
-      //すぐに開始する。何かと読み込むのは心配。それともちょうどいいイベントないかしら
-      //setTimeout(function(){
-      requestAnimationFrame(frame);
-      //},2000);
-    }());
+        //},2000);
+      }());
 
 
