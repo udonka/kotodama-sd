@@ -4,6 +4,7 @@ block topbar
   include /includes/topbar
   +topbar(user_answer)
   a(href="/admin") 管理画面トップ
+  ||
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
 block stimulus_content
@@ -17,8 +18,14 @@ block question_content
     include /includes/questionHeader
     include /includes/answerVote
 
+    h2 このコトダマのパラメータ
+    textarea= JSON.stringify(kotodama_options)
+      
+
     p
       a(href="/admin/kotodamas/csv/#{questionnaire_id}") CSVで開く
+
+    h2 回答
 
     each question_id in Object.keys(answer_feedbacks)
       - other_answer =  answer_feedbacks[question_id]
