@@ -7,12 +7,15 @@ block topbar
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
 block stimulus_content
-  .stimulusArea
+  .stimulusArea 
+    h1(style="float:left")= questionnaire_id 
     img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
 
 block question_content
   .questionArea
     include /includes/answerScale
+    include /includes/questionHeader
+    include /includes/answerVote
 
     p
       a(href="/admin/kotodamas/csv/#{questionnaire_id}") CSVで開く
@@ -21,12 +24,12 @@ block question_content
       - other_answer =  answer_feedbacks[question_id]
       - var question = questions.find(q=> q.id == question_id)
 
-      p(style="text-align:center;margin-bottom:0")= question.left + " < = >  " +  question.right
 
       - var ave = other_answer.ave_rate;
       - var dev = other_answer.dev_rate;
       - var data = other_answer.data_rate;
+      +questionHeader(question)
       +answerScale(ave, dev, null, null, data)
-          
+      +answerVote(other_answer.data)
 
       hr

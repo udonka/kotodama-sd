@@ -78,5 +78,29 @@ block basic_content
         td(colspan="2" )
           .aligncenter
             input(type="submit" value="ユーザー情報変更")
-  
+
+  hr
+
+  h2 このユーザー回答を削除する
+
+  form(action="#{path.join(url,'delete')}" method="post" id="deleteForm")
+    input(type="submit" value="このユーザーを削除")
+
+  script.
+
+    var form = document.querySelector("#deleteForm");
+
+    console.log(form);
+    
+    form.addEventListener("submit", 
+      function confirmDelete(e){
+        console.log(e);
+        var really_delete =  window.confirm("本当にこのユーザーとユーザーの全回答を削除しますか？");
+        if(!really_delete){
+          e.preventDefault();
+        }
+      }
+    );
+
+
 

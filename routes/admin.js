@@ -122,6 +122,24 @@ admin_router.get('/users/:user_answer_id(\\d+).json',
 
 
 
+admin_router.post('/users/:user_answer_id(\\d+)/delete', (req, res, next) => {
+  co(function*(){
+    const user_answer_id = req.params.user_answer_id;
+
+    const removed = yield UserAnswer.removeWithAnswersById(user_answer_id);
+
+    if(removed){
+      //req.flash("deleted");
+      res.redirect(path.join(req.baseUrl,"users"))
+    }
+    else{
+      next(new Error("nothing has not removed"))
+    }
+  }).catch(e=>next(e));
+});
+
+
+
 admin_router.post('/users/:user_answer_id(\\d+)', (req, res, next) => {
   co(function*(){
     const sei      = req.body.sei; //めんどくさい
@@ -190,4 +208,66 @@ admin_router.post('/users/:user_answer_id(\\d+)', (req, res, next) => {
 });
 
 
+function findUserAnswerByQuestionnaireAnswer(q_answer, user_answers){
+  //こいつを回答にもってるやつを探す
+  const found = user_answers.find((u_ans) => {
+    return Object.keys(u_ans.questionnaire_answers).find((questionnaire_id)=>{
+      return q_answer._id.equals(u_ans.questionnaire_answers[questionnaire_id]);
+    });
+  });
+  return found;
+}
 
+
+admin_router.get('/questionnaire_answers/', (req, res, next) => {
+  co(function*(){
+    const questionnaire_answers = Array.from( yield QuestionnaireAnswer.find().exec() );
+    const user_answers = Array.from( yield UserAnswer.find().exec() );
+
+    const questionnaire_answers_and_user_answer = questionnaire_answers.map((q_answer)=>{
+      const user_answer = findUserAnswerByQuestionnaireAnswer(q_answer, user_answers)
+
+      const ret = { //ふつーのオブジェクトじゃないと、user_answerを追加できない
+        q_answer,
+        user_answer
+      };
+
+      return ret;
+    });
+
+    res.render("questionnaire_answers", { questionnaire_answers : questionnaire_answers_and_user_answer} )
+
+  }).catch(e=>next(e));
+});
+
+admin_router.get('/questionnaire_answers/:answer_id', (req, res, next) => {
+  co(function*(){
+    const answer_id = req.params.answer_id;
+    const user_answers = Array.from( yield UserAnswer.find().exec() );
+
+    const q_answer = yield QuestionnaireAnswer.findById( answer_id ).exec();
+
+    const user_answer = findUserAnswerByQuestionnaireAnswer(q_answer, user_answers);
+
+    res.render("questionnaire_answer", { q_answer, user_answer} );
+
+  }).catch(e=>next(e));
+});
+
+
+
+admin_router.post('/questionnaire_answers/:answer_id/delete', (req, res, next) => {
+  co(function*(){
+    const answer_id = req.params.answer_id;
+
+    const removed = yield QuestionnaireAnswer.deleteOne({_id: answer_id});
+
+    if(removed){
+      //req.flash("deleted");
+      res.redirect(path.join(req.baseUrl,"questionnaire_answers"))
+    }
+    else{
+      next(new Error("nothing has not removed"))
+    }
+  }).catch(e=>next(e));
+});
