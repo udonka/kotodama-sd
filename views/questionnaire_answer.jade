@@ -1,0 +1,53 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar()
+  a(href="/admin") 管理画面トップ
+  ||
+  a(href="/admin/questionnaire_answers") 回答一覧画面
+
+block basic_content
+  table
+    thead
+      tr
+        td 回答ID
+        td 設問ID
+        td ユーザー
+        td 回答数
+
+    tbody
+      tr
+        td= q_answer._id  
+        td= q_answer.questionnaire_id 
+        td
+          if user_answer
+            a(href="/admin/users/#{user_answer.id}")= user_answer.id + " " + user_answer.user_info.name_str
+        td=  q_answer.answersLength
+
+
+  
+
+  h2 この設問回答を削除する
+
+  form(action="#{path.join(url,'delete')}" method="post" id="deleteForm")
+    input(type="submit" value="この回答を削除")
+
+  script.
+
+    var form = document.querySelector("#deleteForm");
+
+    console.log(form);
+    
+    form.addEventListener("submit", 
+      function confirmDelete(e){
+        console.log(e);
+        var really_delete =  window.confirm("本当にこのユーザーとユーザーの全回答を削除しますか？");
+        if(!really_delete){
+          e.preventDefault();
+        }
+      }
+    );
+
+
+
