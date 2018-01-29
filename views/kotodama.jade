@@ -10,13 +10,10 @@ block topbar
 
 
 block basic_content
-  if questionnaire_id.match(/k/) 
-    
-    div(style="text-align:center")
-      h1= questionnaire_id 
-      img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png" style="width:200px")
-  else 
-    p #{questionnaire_id}
+  div(style="text-align:center")
+    h1= questionnaire_id 
+      if questionnaire_id.match(/k/) 
+          img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png" style="width:200px")
 
 
   include /includes/answerScale

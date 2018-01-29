@@ -42,3 +42,6 @@ node_modules
 restart.sh
 
 .DS_Store
+
+models/db-settings.js
+data/questionnaires.js
