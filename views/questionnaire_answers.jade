@@ -1,0 +1,31 @@
+extends /layouts/basic_layout
+
+block topbar
+  include /includes/topbar
+  +topbar(user_answer)
+  a(href="/admin") 管理画面トップ
+
+block basic_content
+  h1 全ての回答 (#{questionnaire_answers.length } 件) 
+
+  table
+    thead
+      tr
+        td 回答ID
+        td 設問ID
+        td ユーザー
+        td 回答数
+    tbody
+      each tuple in questionnaire_answers
+        - var q_answer = tuple.q_answer
+        - var user_answer = tuple.user_answer
+        tr
+          td 
+            a(href="#{path.join(url, q_answer._id.toString())}")= q_answer._id 
+          td=  q_answer.questionnaire_id 
+          td
+            if user_answer
+              a(href="/admin/users/#{user_answer.id}")= user_answer.id + " " + user_answer.user_info.name_str
+          td=  q_answer.answersLength
+
+

@@ -143,6 +143,51 @@ UserAnswerSchema.statics.findAndPopulateAnswers = function(q){
 };
 
 
+UserAnswerSchema.statics.removeWithAnswersById = function(user_answer_id){ 
+  const UserAnswer =  this;
+  const QuestionnaireAnswer = mongoose.model("QuestionnaireAnswer");
+
+  return co(function*(){
+    const user = yield UserAnswer.findOne({id:user_answer_id})
+
+    console.log(user);
+
+    if(!user){
+      throw new Error("user not found");
+    }
+
+    const answers =  user.questionnaire_answers;
+
+    //中にあるquestionnaire_answerを削除
+    const result = yield Promise.all( Object.keys(answers).map((q_id)=>{
+      const answer_id = answers[q_id];
+
+
+      if(answer_id && typeof answer_id == "object"){
+        console.log("going to delete");
+        console.log(answer_id);
+        
+
+        return QuestionnaireAnswer.deleteOne({_id : answer_id})
+      }
+      else{
+        return Promise.resolve();
+      }
+   
+    }));
+    console.log(result);
+
+    //user answer を削除
+    const ua_delete_result = yield UserAnswer.deleteOne({id : user_answer_id})
+    console.log(ua_delete_result);
+
+
+    return true; //result
+  });
+};
+
+
+
 UserAnswerSchema.methods.populateAnswers = function (){
   const this_user_answer_doc = this; //doc
   return co(function*(){

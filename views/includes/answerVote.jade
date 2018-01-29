@@ -1,0 +1,18 @@
+mixin answerVote(data) 
+  //data :生データ
+
+  - var votes = {1:0,2:0,3:0,4:0,5:0,6:0,7:0};
+  - data.forEach((value)=> votes[value]++ )
+
+  table.n(style="margin-top:0;")
+    thead
+      tr
+        each vote,key in votes
+          th(style="text-align:center")= key
+    tbody
+      tr
+        each vote,key in votes
+          td(style="text-align:center")= vote + "票"
+
+
+

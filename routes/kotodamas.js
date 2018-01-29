@@ -57,9 +57,6 @@ kotodamas_router.get('/csv/:questionnaire_id', function(req, res, next) {
     res.csv(table);
 
   }).catch(e=>next(e));
-
-
-
 });
 
 
@@ -71,10 +68,13 @@ kotodamas_router.get('/:questionnaire_id', function(req, res, next) {
       = yield QuestionnaireAnswer.calcAveVar(questionnaire_id);
     console.log(answer_feedbacks);
 
+    const kotodama_options = questionnaires.find( q => q.id == questionnaire_id);
+
     return res.render('kotodama', {
       questionnaire_id,
       questions,
-      answer_feedbacks
+      answer_feedbacks,
+      kotodama_options 
     });
   }).catch(e=>next(e));
 
