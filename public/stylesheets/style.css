@@ -684,17 +684,35 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   height: 100%; }
 
-/* line 2, scss/_fullScreenPage.scss */
+/* line 1, scss/_fullScreenPage.scss */
 .fullScreenPage {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden; }
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch; }
 
-/* line 13, scss/_fullScreenPage.scss */
+/* line 14, scss/_fullScreenPage.scss */
+.fullScreenPage__topbar {
+  position: relative; }
+
+/* line 19, scss/_fullScreenPage.scss */
 .fullScreenPage__topbarBottom {
+  padding: 1em;
+  position: relative; }
+
+/* line 25, scss/_fullScreenPage.scss */
+.fullScreenPage__topbar--fixed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60px; }
+
+/* line 36, scss/_fullScreenPage.scss */
+.fullScreenPage__topbarBottom--fixed {
   position: absolute;
   top: 60px;
   left: 0;
@@ -702,29 +720,29 @@ body {
   bottom: 0;
   -webkit-overflow-scrolling: touch; }
 
-/* line 24, scss/_fullScreenPage.scss */
+/* line 48, scss/_fullScreenPage.scss */
 .fullScreenPage__top {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   box-sizing: border-box;
-  height: 38%;
+  height: 10%;
   padding: 5px; }
 
-/* line 35, scss/_fullScreenPage.scss */
+/* line 59, scss/_fullScreenPage.scss */
 .fullScreenPage__bottom {
   position: absolute;
   right: 0;
   left: 0;
   bottom: 0;
   box-sizing: border-box;
-  height: 62%;
+  height: 90%;
   padding: 5px;
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
 
-/* line 52, scss/_fullScreenPage.scss */
+/* line 76, scss/_fullScreenPage.scss */
 .fullScreenPage__full {
   position: absolute;
   top: 0;
@@ -735,17 +753,13 @@ body {
   padding: 5px;
   overflow: scroll; }
 
-/* line 3, scss/_topbar.scss */
+/* line 2, scss/_topbar.scss */
 .topbar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
   box-sizing: border-box;
   height: 60px;
   background: #e8e8e8; }
 
-/* line 19, scss/_topbar.scss */
+/* line 12, scss/_topbar.scss */
 .topbar__inner {
   padding: 5px;
   margin-left: -20px;
@@ -757,19 +771,19 @@ body {
     content: "";
     display: block; }
 
-/* line 27, scss/_topbar.scss */
+/* line 20, scss/_topbar.scss */
 .topbar__title {
   width: calc(50% - 30px);
   float: left;
   margin-left: 20px; }
 
-/* line 32, scss/_topbar.scss */
+/* line 25, scss/_topbar.scss */
 .topbar__userInfo {
   width: calc(50% - 30px);
   float: left;
   margin-left: 20px; }
 
-/* line 36, scss/_topbar.scss */
+/* line 29, scss/_topbar.scss */
 .topbar__id {
   display: inline; }
 
@@ -781,10 +795,20 @@ body {
   right: 0;
   bottom: 0; }
 
-/* line 12, scss/_stimulusArea.scss */
+/* line 9, scss/_stimulusArea.scss */
 .stimulusArea img {
   margin: 0 auto;
   display: block;
+  height: 100%; }
+
+/* line 17, scss/_stimulusArea.scss */
+.stimulusArea h1 {
+  text-align: center;
+  font-size: 50px;
+  justify-content: center;
+  /* 3 */
+  align-items: center;
+  /* 4 */
   height: 100%; }
 
 /* line 1, scss/_questionArea.scss */
@@ -1016,7 +1040,14 @@ tr.questionTable__adjRow {
   text-align: center;
   line-height: 30px; }
 
-/* line 27, scss/style.scss */
+/* line 2, scss/_answerBlock.scss */
+.answerBlock {
+  box-sizing: border-box;
+  padding: 5px;
+  width: 25%;
+  float: left; }
+
+/* line 28, scss/style.scss */
 a {
   color: #00B7FF; }
 

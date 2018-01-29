@@ -6,7 +6,7 @@ var bourbon_neat = require("bourbon-neat");
 var notify = require("gulp-notify");
 var sourcemaps = require("gulp-sourcemaps");
 
-var riot = require("gulp-riot");
+//var riot = require("gulp-riot");
 
 /*
 gulp.task("riot", function(){ 

@@ -5,31 +5,7 @@ block topbar
   +topbar(user_answer)
 
 block append body_end
-  script(type="text/javascript" src="/javascripts/riot.min.js")
-  script(type="text/javascript" src="/riotjs/kotodama-paper.js")
-
-  script(type="text/javascript" src="/javascripts/underscore-min.js")
-
-  script(type="text/javascript" src="/javascripts/imagelib.js")
-
-  script(type="text/javascript" src="/javascripts/Vec2.js")
-  script(type="text/javascript" src="/javascripts/Angle.js")
-  script(type="text/javascript" src="/javascripts/canvaslib.js")
-  script(type="text/javascript" src="/javascripts/Tama.js")
-  script(type="text/javascript" src="/javascripts/Kotodama.js")
-  script(type="text/javascript" src="/javascripts/KotodamaView.js")
-
   script(type="text/javascript" ).
-    //ことだまオブジェクトを作成 ... いまのところシングルトン
-    var kotodama = new Kotodama({ 
-      generateOptions : !{ JSON.stringify( questionnaires.find(q=>q.id == questionnaire_id) .options) }
-    }); 
-
-
-    var kotodamaView = new KotodamaView(kotodama);
-    riot.mount('kotodama-paper', {kotodamaView:kotodamaView, kotodama:kotodama});
-
-
     var feedback__title = document.querySelector("#feedback__title");
     var feedback = document.querySelector("#feedback");
 
@@ -42,8 +18,7 @@ block append body_end
 block stimulus_content
   .stimulusArea(style="text-align:center;")
         
-    kotodama-paper
-
+    h1 #{questionnaire_id}
 
 
 block question_content
@@ -110,7 +85,6 @@ block question_content
 
     p ありがとうございます！
 
-
     h3 ゲットしたバッジ
     table
       each questionnaires_row in questionnaires_rows
@@ -121,10 +95,11 @@ block question_content
                 img(src="/images/kotodama.png")
             else
               td
-                if(questionnaire_id == questionnaire.id) 
-                  img(style="border:10px solid red" src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+                if(questionnaire_id == questionnaire.id)  
+                  div(style="font-size:30px;text-align:center;border:10px solid red") #{questionnaire.id}
+
                 else
-                  img(src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+                  div(style="font-size:30px;text-align:center;") #{questionnaire.id}
               
 
     p.aligncenter

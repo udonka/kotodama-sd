@@ -17,8 +17,7 @@ block basic_content
         each questionnaire in questionnaires
           tr 
             td 
-              a(href="/questionnaires/#{questionnaire.id}")
-                img(src="/images/kotodamas/#{questionnaire.id.slice(1)}.png")
+              a(href="/questionnaires/#{questionnaire.id}") #{questionnaire.id}
             td 
               - var the_answer = questionnaire_answers[questionnaire.id]
               if the_answer != null

@@ -9,15 +9,18 @@ block topbar
 
 block basic_content
   include /includes/answerScale
+  include /includes/questionHeader
+
   h1 質問一覧
 
   - var sorted_questions = questions.sort((a,b)=>a.dev_rate - b.dev_rate)
 
   each question in sorted_questions
-    h2 #{question.id}: #{question.left} <=> #{question.right}
-
     - var ave = question.ave_rate;
     - var dev = question.dev_rate;
     - var data = question.data_rate;
-    +answerScale(ave, dev, null, null, data)
+
+    div(style="margin-bottom:3px;")
+      +questionHeader(question)
+      +answerScale(ave, dev, null, null, data)
 

@@ -1,4 +1,3 @@
-
 .fullScreenPage{
   position:absolute;
     top:0;
@@ -6,11 +5,35 @@
     right:0;
     bottom:0;
 
-  overflow:hidden;
+  overflow:scroll;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.fullScreenPage__topbar{
+  position:relative;
 }
 
 
 .fullScreenPage__topbarBottom{
+  padding:1em;
+
+  position:relative;
+}
+
+.fullScreenPage__topbar--fixed{
+  position:absolute;
+    top:0;
+    right:0;
+    left:0;
+
+  height:$topbar-height;
+
+}
+
+
+.fullScreenPage__topbarBottom--fixed{
   position:absolute;
     top:$topbar-height;
     left:0;
@@ -21,6 +44,7 @@
 
 }
 
+
 .fullScreenPage__top{
   position:absolute;
     top:0;
@@ -28,7 +52,7 @@
     left:0;
 
   box-sizing:border-box;
-  height:38%;
+  height:10%;
   padding:5px;
 }
 
@@ -40,7 +64,7 @@
 
 
   box-sizing:border-box;
-  height:62%;
+  height:90%;
 
   padding:5px;
 

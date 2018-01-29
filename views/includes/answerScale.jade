@@ -1,5 +1,4 @@
 mixin answerScale(ave, dev, my_ans_rate, my_ans, data, question)
-    
   .answerScale
     .answerScale__inner
                 
@@ -14,17 +13,24 @@ mixin answerScale(ave, dev, my_ans_rate, my_ans, data, question)
       if data && data.length > 0
         each point,index in data
           - var rate = index/data.length // 高さをばらつかせる
+
           if typeof point == "number"
             .answerScale__data(
               style="left:#{point*100}%;margin-top:#{rate*20}px; opacity:#{5/data.length}") 
-
-
-            //コトダマが与えられた場合
+            
           else if typeof point == "object" 
-            .answerScale__data(
-              style="left:#{point.ave*100}%;margin-top:#{rate*20}px; opacity:1;background:none") 
-              a(href="/admin/kotodamas/#{point.questionnaire_id}##{question.id}")
-                img(src="/images/kotodamas/#{point.questionnaire_id.slice(1)}.png"  style="width:100%")
+            if point.questionnaire_id.match(/k/) 
+              //コトダマならば
+              .answerScale__data( style="left:#{point.ave*100}%;margin-top:#{rate*20}px; opacity:1;background:none") 
+                a(href="/admin/kotodamas/#{point.questionnaire_id}##{question.id}")
+                  img(src="/images/kotodamas/#{point.questionnaire_id.slice(1)}.png"  style="width:100%")
+
+            else  
+              //ただの文字ならば
+              .answerScale__data( 
+                style="left:#{point.ave*100}%;margin-top:#{rate*20}px; opacity:1;background:none")  
+                | #{point.questionnaire_id}
+
 
 
 
