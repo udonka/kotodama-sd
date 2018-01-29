@@ -5,21 +5,35 @@
     right:0;
     bottom:0;
 
-  overflow:hidden;
+  overflow:scroll;
+
+  -webkit-overflow-scrolling: touch;
 }
 
 
+
+
 .fullScreenPage__topbar{
-  position:absolute;
-    top:0;
-    right:0;
-    left:0;
-  height:$topbar-height;
 
 }
 
 
 .fullScreenPage__topbarBottom{
+
+}
+
+.fullScreenPage__topbar--fixed{
+  position:absolute;
+    top:0;
+    right:0;
+    left:0;
+
+  height:$topbar-height;
+
+}
+
+
+.fullScreenPage__topbarBottom--fixed{
   position:absolute;
     top:$topbar-height;
     left:0;
@@ -29,6 +43,7 @@
   -webkit-overflow-scrolling: touch;
 
 }
+
 
 .fullScreenPage__top{
   position:absolute;
