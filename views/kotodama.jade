@@ -32,16 +32,26 @@ block basic_content
 
   h2 回答
 
+  .answerBlocks
+    each question_id in Object.keys(answer_feedbacks)
+      - other_answer =  answer_feedbacks[question_id]
+      - var question = questions.find(q=> q.id == question_id)
+  
+  
+      - var ave = other_answer.ave_rate;
+      - var dev = other_answer.dev_rate;
+      - var data = other_answer.data_rate;
+      .answerBlock
+        +questionHeader(question)
+        +answerScale(ave, dev, null, null, data)
+        +answerVote(other_answer.data)
 
-  each question_id in Object.keys(answer_feedbacks)
-    - other_answer =  answer_feedbacks[question_id]
-    - var question = questions.find(q=> q.id == question_id)
 
+block append body_end 
+  <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 
-    - var ave = other_answer.ave_rate;
-    - var dev = other_answer.dev_rate;
-    - var data = other_answer.data_rate;
-    .answerBlock
-      +questionHeader(question)
-      +answerScale(ave, dev, null, null, data)
-      +answerVote(other_answer.data)
+  script.
+    $('.answerBlocks').sortable();
+    $('.answerBlocks').disableSelection();
+
