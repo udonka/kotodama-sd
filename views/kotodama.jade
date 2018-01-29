@@ -8,13 +8,11 @@ block topbar
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
 block stimulus_content
-<<<<<<< HEAD
   if questionnaire_id.match(/k/) 
-    .stimulusArea 
-      h1(style="float:left")= questionnaire_id 
-      img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+    h1(style="float:left;text-align:center")= questionnaire_id 
+    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
   else 
-    .stimulusArea #{questionnaire_id}
+    p #{questionnaire_id}
 
 
 block question_content
