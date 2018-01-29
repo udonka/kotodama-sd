@@ -25,6 +25,8 @@ block basic_content
     - var ave = question.ave_rate;
     - var dev = question.dev_rate;
     - var data = question.data_rate;
-    +questionHeader(question)
-    +answerScale(ave, dev, null, null, data,question)
+
+    div(style="margin-bottom:3px;")
+      +questionHeader(question)
+      +answerScale(ave, dev, null, null, data,question)
 

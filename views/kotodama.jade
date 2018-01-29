@@ -1,4 +1,4 @@
-extends /layouts/stimulus_layout
+extends /layouts/basic_layout
 
 block topbar
   include /includes/topbar
@@ -7,39 +7,41 @@ block topbar
   ||
   a(href="#{path.join(url,'../')}") 一覧に戻る
 
-block stimulus_content
+
+
+block basic_content
   if questionnaire_id.match(/k/) 
-    h1(style="float:left;text-align:center")= questionnaire_id 
-    img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png")
+    
+    div(style="text-align:center")
+      h1= questionnaire_id 
+      img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png" style="width:200px")
   else 
     p #{questionnaire_id}
 
 
-block question_content
-  .questionArea
-    include /includes/answerScale
-    include /includes/questionHeader
-    include /includes/answerVote
+  include /includes/answerScale
+  include /includes/questionHeader
+  include /includes/answerVote
 
+  //
     h2 このコトダマのパラメータ
     textarea= JSON.stringify(kotodama_options)
-      
-
     p
       a(href="/admin/kotodamas/csv/#{questionnaire_id}") CSVで開く
 
-    h2 回答
 
-    each question_id in Object.keys(answer_feedbacks)
-      - other_answer =  answer_feedbacks[question_id]
-      - var question = questions.find(q=> q.id == question_id)
+  h2 回答
 
 
-      - var ave = other_answer.ave_rate;
-      - var dev = other_answer.dev_rate;
-      - var data = other_answer.data_rate;
+  each question_id in Object.keys(answer_feedbacks)
+    - other_answer =  answer_feedbacks[question_id]
+    - var question = questions.find(q=> q.id == question_id)
+
+
+    - var ave = other_answer.ave_rate;
+    - var dev = other_answer.dev_rate;
+    - var data = other_answer.data_rate;
+    .answerBlock
       +questionHeader(question)
       +answerScale(ave, dev, null, null, data)
       +answerVote(other_answer.data)
-
-      hr

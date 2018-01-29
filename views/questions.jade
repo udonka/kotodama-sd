@@ -33,7 +33,13 @@ block basic_content
         tr
           td
             - var questionnaire_id = questionnaire.questionnaire_id;
-            p #{questionnaire_id}
+
+            if questionnaire_id.match(/k/)
+              img(src="/images/kotodamas/#{questionnaire_id.slice(1)}.png"  style="width:100%")
+
+            else 
+              p #{questionnaire_id}
+
           td 
             - var ave_var = questionnaire.question_answers_ave_var[question.id];
             - var ave = ave_var.ave_rate;

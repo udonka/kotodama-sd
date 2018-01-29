@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var url = 'mongodb://localhost/kanji-sd-20171224';
+var url = 'mongodb://localhost/kotodama-sd-20171104';
 
 var db_obj = module.exports = {};
 

@@ -694,16 +694,16 @@ body {
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
 
-/* line 16, scss/_fullScreenPage.scss */
+/* line 14, scss/_fullScreenPage.scss */
 .fullScreenPage__topbar {
   position: relative; }
 
-/* line 21, scss/_fullScreenPage.scss */
+/* line 19, scss/_fullScreenPage.scss */
 .fullScreenPage__topbarBottom {
   padding: 1em;
   position: relative; }
 
-/* line 27, scss/_fullScreenPage.scss */
+/* line 25, scss/_fullScreenPage.scss */
 .fullScreenPage__topbar--fixed {
   position: absolute;
   top: 0;
@@ -711,7 +711,7 @@ body {
   left: 0;
   height: 60px; }
 
-/* line 38, scss/_fullScreenPage.scss */
+/* line 36, scss/_fullScreenPage.scss */
 .fullScreenPage__topbarBottom--fixed {
   position: absolute;
   top: 60px;
@@ -720,7 +720,7 @@ body {
   bottom: 0;
   -webkit-overflow-scrolling: touch; }
 
-/* line 50, scss/_fullScreenPage.scss */
+/* line 48, scss/_fullScreenPage.scss */
 .fullScreenPage__top {
   position: absolute;
   top: 0;
@@ -730,7 +730,7 @@ body {
   height: 10%;
   padding: 5px; }
 
-/* line 61, scss/_fullScreenPage.scss */
+/* line 59, scss/_fullScreenPage.scss */
 .fullScreenPage__bottom {
   position: absolute;
   right: 0;
@@ -742,7 +742,7 @@ body {
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
 
-/* line 78, scss/_fullScreenPage.scss */
+/* line 76, scss/_fullScreenPage.scss */
 .fullScreenPage__full {
   position: absolute;
   top: 0;
@@ -1040,7 +1040,14 @@ tr.questionTable__adjRow {
   text-align: center;
   line-height: 30px; }
 
-/* line 27, scss/style.scss */
+/* line 2, scss/_answerBlock.scss */
+.answerBlock {
+  box-sizing: border-box;
+  padding: 5px;
+  width: 25%;
+  float: left; }
+
+/* line 28, scss/style.scss */
 a {
   color: #00B7FF; }
 
