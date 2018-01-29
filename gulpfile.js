@@ -6,8 +6,9 @@ var bourbon_neat = require("bourbon-neat");
 var notify = require("gulp-notify");
 var sourcemaps = require("gulp-sourcemaps");
 
-var riot = require("gulp-riot");
+//var riot = require("gulp-riot");
 
+/*
 gulp.task("riot", function(){ 
   return gulp.src("./riottags/*.jade")
     .pipe(riot( {
@@ -15,6 +16,7 @@ gulp.task("riot", function(){
     }))
     .pipe(gulp.dest("./public/riotjs/"));
 });
+*/
 
 
 gulp.task("scss", function(){ 
@@ -32,7 +34,7 @@ gulp.task("scss", function(){
 
 gulp.task('watch',function () {
   gulp.watch("scss/**/*.scss", ["scss"]);
-  gulp.watch("riottags/*.jade", ["riot"]);
+  //gulp.watch("riottags/*.jade", ["riot"]);
 });
 
-gulp.task('default', ['scss', 'watch', 'riot']);
+gulp.task('default', ['scss', 'watch']);

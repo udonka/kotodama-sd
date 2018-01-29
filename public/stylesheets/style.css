@@ -680,7 +680,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   height: 100%; }
 
-/* line 2, scss/_fullScreenPage.scss */
+/* line 1, scss/_fullScreenPage.scss */
 .fullScreenPage {
   position: absolute;
   top: 0;
@@ -689,7 +689,15 @@ body {
   bottom: 0;
   overflow: hidden; }
 
-/* line 13, scss/_fullScreenPage.scss */
+/* line 12, scss/_fullScreenPage.scss */
+.fullScreenPage__topbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60px; }
+
+/* line 22, scss/_fullScreenPage.scss */
 .fullScreenPage__topbarBottom {
   position: absolute;
   top: 60px;
@@ -698,7 +706,7 @@ body {
   bottom: 0;
   -webkit-overflow-scrolling: touch; }
 
-/* line 24, scss/_fullScreenPage.scss */
+/* line 33, scss/_fullScreenPage.scss */
 .fullScreenPage__top {
   position: absolute;
   top: 0;
@@ -708,7 +716,7 @@ body {
   height: 10%;
   padding: 5px; }
 
-/* line 35, scss/_fullScreenPage.scss */
+/* line 44, scss/_fullScreenPage.scss */
 .fullScreenPage__bottom {
   position: absolute;
   right: 0;
@@ -720,7 +728,7 @@ body {
   overflow: scroll;
   -webkit-overflow-scrolling: touch; }
 
-/* line 52, scss/_fullScreenPage.scss */
+/* line 61, scss/_fullScreenPage.scss */
 .fullScreenPage__full {
   position: absolute;
   top: 0;
