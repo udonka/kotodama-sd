@@ -21,6 +21,7 @@ block basic_content
     thead
       tr
         td id
+        td stu id
         td name
         td email
         td sex
@@ -31,6 +32,7 @@ block basic_content
         tr
           td
             a(href="#{path.join(url,user_answer.id.toString())}")= user_answer.id 
+          td= user_answer.user_info.student_id
           td= user_answer.user_info.name_str
           td= user_answer.user_info.email
           - const is_male = user_answer.user_info.is_male;
